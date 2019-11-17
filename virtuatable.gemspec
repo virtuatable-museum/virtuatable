@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'require_all'            , '3.0.0'
 
   spec.add_runtime_dependency 'mongoid'        , '7.0.1'
+  spec.add_runtime_dependency 'arkaan'         , '1.9.0'
   spec.add_runtime_dependency 'activemodel'    , '5.2.3'
   spec.add_runtime_dependency 'activesupport'  , '5.2.3'
   spec.add_runtime_dependency 'bcrypt'         , '3.1.11'

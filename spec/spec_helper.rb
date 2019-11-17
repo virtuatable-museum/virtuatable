@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'arkaan'
 require 'mongoid'
 require 'bundler'
 require 'virtuatable'

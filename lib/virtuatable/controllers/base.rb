@@ -6,6 +6,8 @@ module Virtuatable
     class Base < Sinatra::Base
       # Includes the custom errors throwers.
       include Virtuatable::API::Errors
+      # Includes the checking methods for sessions.
+      include Virtuatable::Helpers::Sessions
 
       configure do
         # This configuration options allow the error handler to work in tests.
