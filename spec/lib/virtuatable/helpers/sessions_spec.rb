@@ -17,7 +17,7 @@ RSpec.describe Virtuatable::Helpers::Sessions do
       expect(klass.new.session.id).to eq session.id
     end
     it 'correctly returns the session with the checking method too' do
-      expect(klass.new.check_session.id).to eq session.id
+      expect(klass.new.session!.id).to eq session.id
     end
   end
 
@@ -35,7 +35,7 @@ RSpec.describe Virtuatable::Helpers::Sessions do
       expect(klass.new.session).to be nil
     end
     it 'raises the correct error with the checking method' do
-      expect(->{ klass.new.check_session }).to raise_error(Virtuatable::API::Errors::NotFound)
+      expect(->{ klass.new.session! }).to raise_error(Virtuatable::API::Errors::NotFound)
     end
   end
 
@@ -51,7 +51,7 @@ RSpec.describe Virtuatable::Helpers::Sessions do
       expect(klass.new.session).to be nil
     end
     it 'raises the correct error with the checking method' do
-      expect(->{ klass.new.check_session }).to raise_error(Virtuatable::API::Errors::BadRequest)
+      expect(->{ klass.new.session! }).to raise_error(Virtuatable::API::Errors::BadRequest)
     end
   end
 end
