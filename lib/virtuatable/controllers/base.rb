@@ -8,6 +8,8 @@ module Virtuatable
       include Virtuatable::API::Errors
       # Includes the checking methods for sessions.
       include Virtuatable::Helpers::Sessions
+      # Include the checkers and getters for the API gateway.
+      include Virtuatable::Helpers::Gateways
 
       configure do
         # This configuration options allow the error handler to work in tests.
