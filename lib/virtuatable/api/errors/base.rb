@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 module Virtuatable
   module API
     module Errors
       # Standard class parent to all specialized http errors.
       # @author Vincent Courtois <courtois.vincent@outlook.com>
       class Base < StandardError
-
         # @!attribute [rw] field
         #   @return [String, Symbol] the name of the field in error in the model.
         attr_accessor :field
@@ -18,7 +19,7 @@ module Virtuatable
         #   @return [Integer] the HTTP status code as a number (eg: 400, 422 or 500)
         attr_accessor :status
 
-        def initialize (field:, error:, status:)
+        def initialize(field:, error:, status:)
           @field = field.to_s
           @error = error
           @status = status

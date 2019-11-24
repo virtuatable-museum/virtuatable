@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Virtuatable
   module Controllers
     # This class represents a base controller for the system, giving access
@@ -23,6 +25,14 @@ module Virtuatable
 
       error Virtuatable::API::Errors::NotFound do |exception|
         api_not_found exception.message
+      end
+
+      error Virtuatable::API::Errors::BadRequest do |exception|
+        api_bad_request exception.message
+      end
+
+      error Virtuatable::API::Errors::BadRequest do |exception|
+        api_forbidden exception.message
       end
     end
   end

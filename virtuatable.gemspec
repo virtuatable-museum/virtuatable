@@ -23,6 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry'                    , '0.11.1'
   spec.add_development_dependency 'rack'                   , '2.0.7'
   spec.add_development_dependency 'require_all'            , '3.0.0'
+  spec.add_development_dependency 'rubocop'                , '0.76.0'
 
   spec.add_runtime_dependency 'mongoid'        , '7.0.1'
   spec.add_runtime_dependency 'arkaan'         , '1.9.0'

@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 module Virtuatable
   module API
     # This module defines method to raise HTTP errors in the routes easily.
     # @author Vincent Courtois <courtois.vincent@outlook.com>
     module Errors
-
       autoload :Base, 'virtuatable/api/errors/base'
       autoload :BadRequest, 'virtuatable/api/errors/bad_request'
       autoload :Forbidden, 'virtuatable/api/errors/forbidden'
@@ -17,8 +18,9 @@ module Virtuatable
       # @param message [String] the raw message to split and format as body.
       def api_error(status, message)
         field, error = message.split('.')
-        docs = settings.errors[field][error] rescue ''
-        halt status, {status: status, field: field, error: error, docs: docs}.to_json
+        docs = settings.errors.try(field).try(error)
+        errors = { status: status, field: field, error: error, docs: docs }
+        halt status, errors.to_json
       end
 
       # Stops the execution to return a NOT FOUND response.
