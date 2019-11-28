@@ -1,5 +1,5 @@
 RSpec.describe Virtuatable::Builders::Tests do
-  let!(:builder) { Virtuatable::Builders::Tests.new }
+  let!(:builder) { Virtuatable::Builders::Tests.new(name: 'specs') }
 
   describe :directory do
     it 'Returns the correct directory' do

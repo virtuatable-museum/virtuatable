@@ -9,6 +9,7 @@ module Virtuatable
       autoload :Environment, 'virtuatable/builders/helpers/environment'
       autoload :Loaders, 'virtuatable/builders/helpers/loaders'
       autoload :Mongoid, 'virtuatable/builders/helpers/mongoid'
+      autoload :Registration, 'virtuatable/builders/helpers/registration'
     end
   end
 end

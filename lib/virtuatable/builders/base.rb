@@ -15,6 +15,7 @@ module Virtuatable
       include Virtuatable::Builders::Helpers::Controllers
       include Virtuatable::Builders::Helpers::Environment
       include Virtuatable::Builders::Helpers::Mongoid
+      include Virtuatable::Builders::Helpers::Registration
 
       # @!attribute [rw] directory
       #   @return [String] the directory from which the application is loaded.
@@ -25,17 +26,20 @@ module Virtuatable
       #     load the service for.
       attr_reader :mode
 
+      attr_reader :name
+
       # Constructor of the builder, initializing needed attributes.
       # @param directory [String] the directory from which load the application.
-      def initialize(locations: caller_locations, path: '.')
+      def initialize(locations: caller_locations, path: '.', name:)
         # The base folder of the file calling the builder
         filedir = File.dirname(locations.first.absolute_path)
         @directory = File.absolute_path(File.join(filedir, path))
         @mode = :development
+        @name = name.to_s
       end
 
       def load!
-        loaders.each do |loader|
+        self.class.loaders.each do |loader|
           send(:"load_#{loader}!")
         end
       end
