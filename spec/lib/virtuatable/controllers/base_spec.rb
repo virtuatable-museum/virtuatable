@@ -107,4 +107,25 @@ RSpec.describe Virtuatable::Controllers::Base do
       end
     end
   end
+
+  describe 'Bad Request errors' do
+    def app
+      Controllers::Mongoid.new
+    end
+    describe 'raised with an exception' do
+      before do
+        get '/exception'
+      end
+      it 'Returns a 400 status code' do
+        expect(last_response.status).to be 400
+      end
+      it 'Returns the correct body' do
+        expect(last_response.body).to include_json({
+          status: 400,
+          field: 'username',
+          error: 'required'
+        })
+      end
+    end
+  end
 end

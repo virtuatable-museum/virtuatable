@@ -3,6 +3,12 @@ RSpec.describe Virtuatable::Builders::Base do
   let!(:path) { File.absolute_path(File.join(__dir__, '..', '..', '..', '..')) }
   let!(:mongoid_path) { File.join(path, 'config', 'mongoid.yml') }
 
+  describe :controllers do
+    it 'Returns an empty list if no controller is declared' do
+      expect(builder.controllers).to eq []
+    end
+  end
+
   describe :directory do
     it 'Returns the correct directory' do
       expect(builder.directory).to eq path
@@ -41,7 +47,6 @@ RSpec.describe Virtuatable::Builders::Base do
   end
 
   describe :load! do
-    
     it 'Has correctly called the Mongoid loader' do
       expect(Mongoid).to receive(:load!).with(mongoid_path, :development).and_return false
       builder.load!

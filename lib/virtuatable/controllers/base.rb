@@ -20,7 +20,7 @@ module Virtuatable
       end
 
       error Mongoid::Errors::Validations do |errors|
-        api_bad_request errors.messages.keys.first
+        api_bad_request errors.document.errors.messages.keys.first
       end
 
       error Virtuatable::API::Errors::NotFound do |exception|
