@@ -31,7 +31,7 @@ module Virtuatable
         api_bad_request exception.message
       end
 
-      error Virtuatable::API::Errors::BadRequest do |exception|
+      error Virtuatable::API::Errors::Forbidden do |exception|
         api_forbidden exception.message
       end
     end
