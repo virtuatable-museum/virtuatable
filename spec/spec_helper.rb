@@ -1,3 +1,8 @@
+require 'simplecov'
+SimpleCov.start do
+  add_filter File.join('spec', '*')
+end
+
 require 'sinatra'
 require 'arkaan'
 require 'mongoid'

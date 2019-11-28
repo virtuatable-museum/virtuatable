@@ -7,5 +7,6 @@ module Virtuatable
   module Builders
     autoload :Base, 'virtuatable/builders/base'
     autoload :Helpers, 'virtuatable/builders/helpers'
+    autoload :Tests, 'virtuatable/builders/tests'
   end
 end
