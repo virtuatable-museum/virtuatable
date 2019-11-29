@@ -28,7 +28,7 @@ module Virtuatable
             path: "/#{@name}"
           )
           @instance = service.instances.first_or_create!(
-            type: ENV['INSTANCE_TYPE'].to_sym,
+            type: type,
             url: ENV['SERVICE_URL']
           )
         end

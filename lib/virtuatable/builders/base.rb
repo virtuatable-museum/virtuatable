@@ -14,6 +14,7 @@ module Virtuatable
       # Include all the helpers now that loaders can be declared.
       include Virtuatable::Builders::Helpers::Controllers
       include Virtuatable::Builders::Helpers::Environment
+      include Virtuatable::Builders::Helpers::Folders
       include Virtuatable::Builders::Helpers::Mongoid
       include Virtuatable::Builders::Helpers::Registration
 
@@ -45,6 +46,9 @@ module Virtuatable
         end
       end
 
+      # Checks the presence of all the needed environment variables.
+      # @raise [Virtuatable::Builders::Errors::MissingEnv] if a variable is not present,
+      #   for a variable to be present she has to be a key of the ENV constant.
       def check_variables!
         names = ['INSTANCE_TYPE']
         names.each do |varname|
@@ -56,7 +60,7 @@ module Virtuatable
       # Returns the type of the instance, default being a UNIX server
       # @return [Symbol] the type of instance currently loading.
       def type
-        ENV['INSTANCE_TYPE'] || :unix
+        ENV['INSTANCE_TYPE'].nil? ? :unix : ENV['INSTANCE_TYPE'].to_sym
       end
     end
   end

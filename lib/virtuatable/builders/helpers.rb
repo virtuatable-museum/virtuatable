@@ -7,6 +7,7 @@ module Virtuatable
     module Helpers
       autoload :Controllers, 'virtuatable/builders/helpers/controllers'
       autoload :Environment, 'virtuatable/builders/helpers/environment'
+      autoload :Folders, 'virtuatable/builders/helpers/folders'
       autoload :Loaders, 'virtuatable/builders/helpers/loaders'
       autoload :Mongoid, 'virtuatable/builders/helpers/mongoid'
       autoload :Registration, 'virtuatable/builders/helpers/registration'

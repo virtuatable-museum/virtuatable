@@ -86,8 +86,20 @@ RSpec.describe Virtuatable::Builders::Base do
         expect(->{ builder.load_registration! }).to raise_error(Mongoid::Errors::Validations)
       end
       it 'Raises an error if the instance cannot be created' do
-
+        stub_const('ENV', {'SERVICE_URL' => 'test_invalid_url'})
+        expect(->{ builder.load_registration! }).to raise_error(Mongoid::Errors::Validations)
       end
+    end
+  end
+
+  describe :type do
+    it 'Returns the correct type if existing' do
+      stub_const('ENV', {'INSTANCE_TYPE' => 'docker'})
+      expect(builder.type).to eq :docker
+    end
+    it 'Returns the default value if no env variable is declared' do
+      stub_const('ENV', {})
+      expect(builder.type).to eq :unix
     end
   end
 
