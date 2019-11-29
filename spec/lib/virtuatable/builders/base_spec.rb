@@ -91,6 +91,7 @@ RSpec.describe Virtuatable::Builders::Base do
 
   describe :load_folders! do
     it 'Requires the desired folders' do
+      allow(File).to receive(:directory?).and_return(true)
       paths = ['controllers', 'services', 'decorators']
       paths.each do |end_path|
         complete_path = File.join(path, end_path)

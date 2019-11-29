@@ -69,7 +69,8 @@ module Virtuatable
       # @param *folders [Array<String>] the folders names passed as parameters.
       def require_folders(*folders)
         folders.each do |folder|
-          require_all(File.join(directory, folder))
+          path = File.join(directory, folder)
+          require_all(path) if File.directory?(path)
         end
       end
 

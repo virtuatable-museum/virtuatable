@@ -12,6 +12,7 @@ RSpec.describe Virtuatable::Builders::Tests do
 
   describe :load_tests! do
     it 'Requires the correct folders overall' do
+      allow(File).to receive(:directory?).and_return(true)
       paths = ['spec/support', 'spec/shared']
       paths.each do |end_path|
         complete_path = File.join(path, end_path)
