@@ -1,6 +1,3 @@
-ENV['INSTANCE_TYPE'] = 'unix'
-ENV['SERVICE_URL'] = 'https://127.0.0.1:666/'
-
 RSpec.describe Virtuatable::Builders::Base do
   let!(:builder) { Virtuatable::Builders::Base.new(name: 'specs', path: '../../../..') }
   let!(:path) { File.absolute_path(File.join(__dir__, '..', '..', '..', '..')) }
@@ -92,6 +89,20 @@ RSpec.describe Virtuatable::Builders::Base do
     end
   end
 
+  describe :load_folders! do
+    let!(:ctr_path) { File.join(path, 'controllers') }
+    let!(:ser_path) { File.join(path, 'services') }
+    let!(:dec_path) { File.join(path, 'decorators') }
+    it 'Requires the desired folders' do
+      paths = ['controllers', 'services', 'decorators']
+      paths.each do |end_path|
+        complete_path = File.join(path, end_path)
+        expect(builder).to receive(:require_all).with(complete_path).and_return(false)
+      end
+      builder.load_folders!
+    end
+  end
+
   describe :type do
     it 'Returns the correct type if existing' do
       stub_const('ENV', {'INSTANCE_TYPE' => 'docker'})
@@ -109,6 +120,9 @@ RSpec.describe Virtuatable::Builders::Base do
         'SERVICE_URL' => 'http://localhost:9292',
         'INSTANCE_TYPE' => 'unix'
       })
+      # We mock the require_all because the folders does not exist, and this
+      # feature is tested in the load_folders tests where we check the paths.
+      allow(builder).to receive(:require_all).and_return(false)
     end
     it 'Has correctly called the Mongoid loader' do
       expect(Mongoid).to receive(:load!).with(mongoid_path, :development).and_return false
@@ -120,6 +134,10 @@ RSpec.describe Virtuatable::Builders::Base do
     end
     it 'Has correctly called the registration loader' do
       expect(builder).to receive(:load_registration!).and_return(false)
+      builder.load!
+    end
+    it 'Has correctly called the folders loader' do
+      expect(builder).to receive(:load_folders!).and_return(false)
       builder.load!
     end
   end

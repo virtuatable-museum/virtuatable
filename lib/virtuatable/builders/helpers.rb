@@ -11,6 +11,7 @@ module Virtuatable
       autoload :Loaders, 'virtuatable/builders/helpers/loaders'
       autoload :Mongoid, 'virtuatable/builders/helpers/mongoid'
       autoload :Registration, 'virtuatable/builders/helpers/registration'
+      autoload :Tests, 'virtuatable/builders/helpers/tests'
     end
   end
 end

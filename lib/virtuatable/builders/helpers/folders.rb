@@ -12,7 +12,7 @@ module Virtuatable
         end
 
         def load_folders!
-          # use require_all
+          require_folders('controllers', 'services', 'decorators')
         end
       end
     end

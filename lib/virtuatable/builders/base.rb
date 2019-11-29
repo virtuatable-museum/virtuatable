@@ -11,6 +11,8 @@ module Virtuatable
     # @author Vincent Courtois <courtois.vincent@outlook.com>
     class Base
       extend Virtuatable::Builders::Helpers::Loaders
+      # We include this module only for test purposes to mock require_all
+      include RequireAll
       # Include all the helpers now that loaders can be declared.
       include Virtuatable::Builders::Helpers::Controllers
       include Virtuatable::Builders::Helpers::Environment
@@ -41,7 +43,7 @@ module Virtuatable
       end
 
       def load!
-        self.class.loaders.each do |loader|
+        all_loaders.each do |loader|
           send(:"load_#{loader}!")
         end
       end
@@ -61,6 +63,23 @@ module Virtuatable
       # @return [Symbol] the type of instance currently loading.
       def type
         ENV['INSTANCE_TYPE'].nil? ? :unix : ENV['INSTANCE_TYPE'].to_sym
+      end
+
+      # Loads a list of folders given as method parameters
+      # @param *folders [Array<String>] the folders names passed as parameters.
+      def require_folders(*folders)
+        folders.each do |folder|
+          require_all(File.join(directory, folder))
+        end
+      end
+
+      # Gets the loaders of the current class and all its ancestors that have loaders
+      # @return [Array<Symbol>] the name of the loaders declared.
+      def all_loaders
+        ancestors_loaders = self.class.ancestors.map do |ancestor|
+          ancestor.respond_to?(:loaders) ? ancestor.loaders : []
+        end
+        (self.class.loaders + ancestors_loaders.flatten).uniq
       end
     end
   end
