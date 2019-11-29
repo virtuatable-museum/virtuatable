@@ -17,16 +17,17 @@ module Virtuatable
       include Virtuatable::Builders::Helpers::Mongoid
       include Virtuatable::Builders::Helpers::Registration
 
-      # @!attribute [rw] directory
+      # @!attribute [r] directory
       #   @return [String] the directory from which the application is loaded.
       #     In most case, just pass __dir__ from the config.ru file.
-      attr_accessor :directory
-      # The mode can be either development or test depending on what loads the service.
+      attr_reader :directory
+      # @!attribute [r] mode
       #   @return [Symbol] :test or :development depending on what you're trying to
       #     load the service for.
       attr_reader :mode
-
-      attr_reader :name
+      # @!attribute [rw] name
+      #   @return [String] the name of the micro-service.
+      attr_accessor :name
 
       # Constructor of the builder, initializing needed attributes.
       # @param directory [String] the directory from which load the application.
@@ -42,6 +43,20 @@ module Virtuatable
         self.class.loaders.each do |loader|
           send(:"load_#{loader}!")
         end
+      end
+
+      def check_variables!
+        names = ['INSTANCE_TYPE']
+        names.each do |varname|
+          exception_klass = Virtuatable::Builders::Errors::MissingEnv
+          raise exception_klass.new(variable: varname) if !ENV.key?(varname)
+        end
+      end
+
+      # Returns the type of the instance, default being a UNIX server
+      # @return [Symbol] the type of instance currently loading.
+      def type
+        ENV['INSTANCE_TYPE'] || :unix
       end
     end
   end

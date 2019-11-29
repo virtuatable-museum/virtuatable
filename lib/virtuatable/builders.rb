@@ -6,6 +6,7 @@ module Virtuatable
   # @author Vincent Courtois <courtois.vincent@outlook.com>
   module Builders
     autoload :Base, 'virtuatable/builders/base'
+    autoload :Errors, 'virtuatable/builders/errors'
     autoload :Helpers, 'virtuatable/builders/helpers'
     autoload :Tests, 'virtuatable/builders/tests'
   end
