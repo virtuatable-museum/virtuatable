@@ -90,9 +90,6 @@ RSpec.describe Virtuatable::Builders::Base do
   end
 
   describe :load_folders! do
-    let!(:ctr_path) { File.join(path, 'controllers') }
-    let!(:ser_path) { File.join(path, 'services') }
-    let!(:dec_path) { File.join(path, 'decorators') }
     it 'Requires the desired folders' do
       paths = ['controllers', 'services', 'decorators']
       paths.each do |end_path|
