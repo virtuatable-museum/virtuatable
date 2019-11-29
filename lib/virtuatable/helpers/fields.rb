@@ -1,0 +1,28 @@
+module Virtuatable
+  module Helpers
+    # Helpers for the parameters of a request.
+    # @author Vincent Courtois <courtois.vincent@outlook.com>
+    module Fields
+      # Checks the presence of several fields given as parameters and halts the execution if it's not present.
+      # @param fields [Array<String>] an array of fields names to search in the parameters
+      def check_presence(*fields)
+        fields.each do |field|
+          if !params.keys?(field) || params[field] == ''
+            api_error 400, "#{field}.required"
+          end
+        end
+      end
+
+      # Checks the presence of either fields given in parameters.
+      # It halts with an error only if ALL parameters are not given.
+      #
+      # @param fields [Array<String>] an array of fields names to search in the parameters
+      # @param key [String] the key to search in the errors configuration file.
+      def check_either_presence(*fields, key:)
+        api_error 400, "#{key}.required" if !fields.any? do |field|
+          field.key?(field) && params[field] != ''
+        end
+      end
+    end
+  end
+end

@@ -6,6 +6,8 @@ module Virtuatable
     # to checking methods for sessions, gateways, applications, etc.
     # @author Vincent Courtois <courtois.vincent@outlook.com>
     class Base < Sinatra::Base
+      register Sinatra::ConfigFile
+      helpers Sinatra::CustomLogger
       # Includes the custom errors throwers.
       include Virtuatable::API::Errors
       # Includes the checking methods for sessions.
@@ -14,8 +16,12 @@ module Virtuatable
       include Virtuatable::Helpers::Gateways
       # Include the checkers and getters for OAuth apps
       include Virtuatable::Helpers::Applications
+      # Include checkers for field requirement and check
+      include Virtuatable::Helpers::Fields
 
       configure do
+        set :logger, Logger.new(STDOUT)
+        logger.level = Logger::ERROR if ENV['RACK_ENV'] == 'test'
         # This configuration options allow the error handler to work in tests.
         set :show_exceptions, false
         set :raise_errors, false
