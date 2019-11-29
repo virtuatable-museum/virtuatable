@@ -6,6 +6,7 @@ module Virtuatable
   # @author Vincent Courtois <courtois.vincent@outlook.com>
   module Helpers
     autoload :Accounts, 'virtuatable/helpers/accounts'
+    autoload :Applications, 'virtuatable/helpers/applications'
     autoload :Gateways, 'virtuatable/helpers/gateways'
     autoload :Sessions, 'virtuatable/helpers/sessions'
   end

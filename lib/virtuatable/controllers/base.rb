@@ -12,6 +12,8 @@ module Virtuatable
       include Virtuatable::Helpers::Sessions
       # Include the checkers and getters for the API gateway.
       include Virtuatable::Helpers::Gateways
+      # Include the checkers and getters for OAuth apps
+      include Virtuatable::Helpers::Applications
 
       configure do
         # This configuration options allow the error handler to work in tests.
@@ -33,6 +35,12 @@ module Virtuatable
 
       error Virtuatable::API::Errors::Forbidden do |exception|
         api_forbidden exception.message
+      end
+
+      if ENV['RACK_ENV'] != 'test'
+        error StandardError do |error|
+          api_error 500, "unknown_field.unknown_error"
+        end
       end
     end
   end
