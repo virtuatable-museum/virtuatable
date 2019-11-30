@@ -108,7 +108,7 @@ RSpec.describe Virtuatable::Controllers::Base do
     end
   end
 
-  describe 'Bad Request errors' do
+  describe 'Mongoid errors' do
     def app
       Controllers::Mongoid.new
     end
@@ -124,6 +124,28 @@ RSpec.describe Virtuatable::Controllers::Base do
           status: 400,
           field: 'username',
           error: 'required'
+        })
+      end
+    end
+  end
+
+  describe 'Standard errors' do
+    def app
+      Controllers::StandardError.new
+    end
+    describe 'raised with an exception' do
+      before do
+        stub_const('ENV', {'RACK_ENV' => 'development'})
+        get '/exception'
+      end
+      it 'Returns a 500 status code' do
+        expect(last_response.status).to be 500
+      end
+      it 'Returns the correct body' do
+        expect(last_response.body).to include_json({
+          status: 500,
+          field: 'unknown_field',
+          error: 'unknown_error'
         })
       end
     end
