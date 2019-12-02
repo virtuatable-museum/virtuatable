@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Virtuatable
   # Wrapping class to easily create builders.
   # @author Vincent Courtois <courtois.vincent@outlook.com>
@@ -12,7 +14,7 @@ module Virtuatable
     # load the environment, configuration, and require the necessary files.
     # @param name [String] the name of the service you're loading.
     def self.load!(name)
-      builder = Virtuatable::Builders::Base(
+      Virtuatable::Builders::Base(
         locations: caller_locations,
         name: name
       )
@@ -21,7 +23,7 @@ module Virtuatable
     # Loads the application from a spec/spec_helper to load the specs.
     # @param name [String] the name of the service to load the specs of.
     def self.load_tests!(name)
-      builder = Virtuatable::Builders::Tests(
+      Virtuatable::Builders::Tests(
         locations: caller_locations,
         name: name
       )

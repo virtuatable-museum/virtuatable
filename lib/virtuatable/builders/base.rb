@@ -55,7 +55,7 @@ module Virtuatable
         names = ['INSTANCE_TYPE']
         names.each do |varname|
           exception_klass = Virtuatable::Builders::Errors::MissingEnv
-          raise exception_klass.new(variable: varname) if !ENV.key?(varname)
+          raise exception_klass.new(variable: varname) unless ENV.key?(varname)
         end
       end
 

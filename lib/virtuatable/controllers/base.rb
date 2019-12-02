@@ -45,7 +45,7 @@ module Virtuatable
 
       if ENV['RACK_ENV'] != 'test'
         error StandardError do |error|
-          api_error 500, "unknown_field.unknown_error"
+          api_error 500, "unknown_field.#{error.class.name}"
         end
       end
     end

@@ -145,7 +145,7 @@ RSpec.describe Virtuatable::Controllers::Base do
         expect(last_response.body).to include_json({
           status: 500,
           field: 'unknown_field',
-          error: 'unknown_error'
+          error: 'StandardError'
         })
       end
     end

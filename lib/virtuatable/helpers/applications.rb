@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Virtuatable
   module Helpers
     # Helpers to get and check OAuth applications connecting the the application.

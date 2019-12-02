@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 module Virtuatable
   module Builders
     module Helpers
+      # Add the methods to declare an array of loaders into a builder class.
+      # @author Vincent Courtois <courtois.vincent@outlook.com>
       module Loaders
         # @!attribute [rw] loaders
         #   @return [Array] an array of loading functions invoked at startup.
