@@ -150,4 +150,32 @@ RSpec.describe Virtuatable::Controllers::Base do
       end
     end
   end
+
+  describe 'API routes' do
+    let!(:klass) {
+      Class.new(Virtuatable::Controllers::Base) do
+        api_route 'GET', '/path', options: {premium: true}
+      end
+    }
+    describe 'Non premium apps requesting a premium route' do
+      def app
+        klass.new
+      end
+      let!(:babausse) { create(:babausse) }
+      let!(:application) { create(:application, creator: babausse) }
+      before do
+        get '/tests/path', {app_key: application.key}
+      end
+      it 'Has returned a Forbidden (403) status code' do
+        expect(last_response.status).to be 403
+      end
+      it 'Has returned the correct body' do
+        expect(last_response.body).to include_json(
+          status: 403,
+          field: 'app_key',
+          error: 'forbidden'
+        )
+      end
+    end
+  end
 end

@@ -22,10 +22,12 @@ module Virtuatable
 
         if route.premium
           send(route.verb, route.path) do
-
+            application!(premium: true)
           end
         else
+          send(route.verb, route.path) do
 
+          end
         end
       end
 

@@ -13,3 +13,8 @@ Bundler.require(:development)
 
 require_rel 'support/**/*.rb'
 require_rel 'classes/**/*.rb'
+
+ENV['SERVICE_URL'] = 'https://localhost:9292/'
+ENV['INSTANCE_TYPE'] = 'unix'
+
+Virtuatable::Application.load_tests!('tests')

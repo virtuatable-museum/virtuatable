@@ -14,21 +14,27 @@ module Virtuatable
     # load the environment, configuration, and require the necessary files.
     # @param name [String] the name of the service you're loading.
     def self.load!(name, locations: caller_locations, path: '.')
-      self.instance.builder = Virtuatable::Builders::Base.new(
+      builder = Virtuatable::Builders::Base.new(
         locations: locations,
         path: path,
         name: name
       )
+      builder.load!
+      self.instance.builder = builder
+      builder
     end
 
     # Loads the application from a spec/spec_helper to load the specs.
     # @param name [String] the name of the service to load the specs of.
     def self.load_tests!(name, locations: caller_locations, path: '..')
-      self.instance.builder = Virtuatable::Builders::Tests.new(
+      builder = Virtuatable::Builders::Tests.new(
         locations: locations,
         path: path,
         name: name
       )
+      builder.load!
+      self.instance.builder = builder
+      builder
     end
 
     # Wrapper to simplify the call to instance.:builder
