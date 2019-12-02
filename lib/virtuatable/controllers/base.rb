@@ -20,7 +20,7 @@ module Virtuatable
       include Virtuatable::Helpers::Fields
       # This module is extended, not included, because it provides routes
       # declaration methods used in class declarations.
-      extend Virtuatable::Helpers::Routes
+      extend Virtuatable::Helpers::Declarators
 
       configure do
         set :logger, Logger.new(STDOUT)

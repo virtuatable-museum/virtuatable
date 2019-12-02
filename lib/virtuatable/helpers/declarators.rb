@@ -5,10 +5,10 @@ module Virtuatable
     # This helpers module is a bit larger than the others as it provides methods
     # to declare routes whithin a service, performing needed checks and filters.
     # @author Vincent Courtois <courtois.vincent@outlook.com>
-    module Routes
+    module Declarators
       # @!attribute [r] routes
       #   @return [Array<Arkaan::Monitoring::Route>] the currently declared routes.
-      attr_reader :routes
+      attr_reader :api_routes
 
       # Main method to declare new routes, persisting them in the database and
       # declaring it in the Sinatra application with the needed before checks.
@@ -16,9 +16,17 @@ module Virtuatable
       # @param verb [String] the HTTP method for the route.
       # @param path [String] the whole URI with parameters for the route.
       # @param options [Hash] the additional options for the route.
-      def api_route(verb, path, options: {})
+      def api_route(verb, path, options: {}, &block)
         options = default_options.merge(options)
         route = add_route(verb: verb, path: path, options: options)
+
+        if route.premium
+          send(route.verb, route.path) do
+
+          end
+        else
+
+        end
       end
 
       # Add a route to the database, then to the routes array.
@@ -33,13 +41,13 @@ module Virtuatable
           service: builder.service,
           authenticated: options[:authenticated]
         )
-        routes.nil? ? @routes = [route] : push_route(route)
+        api_routes.nil? ? @api_routes = [route] : push_route(route)
         add_permissions(route)
         route
       end
 
       def push_route(route)
-        @routes << route if routes.none? do |tmp_route|
+        @api_routes << route if api_routes.none? do |tmp_route|
           route.id == tmp_route.id
         end
       end

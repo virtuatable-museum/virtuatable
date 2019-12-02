@@ -1,4 +1,4 @@
-RSpec.describe Virtuatable::Helpers::Routes do
+RSpec.describe Virtuatable::Helpers::Declarators do
   before do
     stub_const('ENV', {
       'SERVICE_URL' => 'https://localhost:9292/',
@@ -13,13 +13,13 @@ RSpec.describe Virtuatable::Helpers::Routes do
     describe :api_route do
       describe 'When adding a route for the first time' do
         let!(:klass) {
-          Class.new do
-            extend Virtuatable::Helpers::Routes
+          Class.new(Sinatra::Base) do
+            extend Virtuatable::Helpers::Declarators
 
             api_route 'GET', '/path', options: {premium: true, authenticated: true}
           end
         }
-        let!(:route) { klass.routes.first }
+        let!(:route) { klass.api_routes.first }
 
         it 'Creates a route with the correct path' do
           expect(route.path).to eq '/routes/path'
@@ -36,13 +36,13 @@ RSpec.describe Virtuatable::Helpers::Routes do
       end
       describe 'Options default values' do
         let!(:klass) {
-          Class.new do
-            extend Virtuatable::Helpers::Routes
+          Class.new(Sinatra::Base) do
+            extend Virtuatable::Helpers::Declarators
 
             api_route 'GET', '/path'
           end
         }
-        let!(:route) { klass.routes.first }
+        let!(:route) { klass.api_routes.first }
         it 'Has the correct value for the authenticated flag' do
           expect(route.authenticated).to be true
         end
@@ -52,8 +52,8 @@ RSpec.describe Virtuatable::Helpers::Routes do
       end
       describe 'When adding the same route twice' do
         let!(:klass) {
-          Class.new do
-            extend Virtuatable::Helpers::Routes
+          Class.new(Sinatra::Base) do
+            extend Virtuatable::Helpers::Declarators
 
             api_route 'GET', '/path'
             api_route 'GET', '/path'
@@ -63,20 +63,20 @@ RSpec.describe Virtuatable::Helpers::Routes do
           expect(Arkaan::Monitoring::Route.count).to be 1
         end
         it 'has only stored one route in the routes array' do
-          expect(klass.routes.count).to be 1
+          expect(klass.api_routes.count).to be 1
         end
       end
       describe 'Permissions added to the route' do
         let!(:admins) { create(:administrators) }
         let!(:users) { create(:users) }
         let!(:klass) {
-          Class.new do
-            extend Virtuatable::Helpers::Routes
+          Class.new(Sinatra::Base) do
+            extend Virtuatable::Helpers::Declarators
 
             api_route 'GET', '/path'
           end
         }
-        let!(:route) { klass.routes.first }
+        let!(:route) { klass.api_routes.first }
 
         it 'Has added one group to the route' do
           expect(route.groups.count).to be 1

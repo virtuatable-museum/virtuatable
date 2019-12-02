@@ -7,9 +7,9 @@ module Virtuatable
   module Helpers
     autoload :Accounts, 'virtuatable/helpers/accounts'
     autoload :Applications, 'virtuatable/helpers/applications'
+    autoload :Declarators, 'virtuatable/helpers/declarators'
     autoload :Fields, 'virtuatable/helpers/fields'
     autoload :Gateways, 'virtuatable/helpers/gateways'
-    autoload :Routes, 'virtuatable/helpers/routes'
     autoload :Sessions, 'virtuatable/helpers/sessions'
   end
 end
