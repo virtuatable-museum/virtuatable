@@ -66,6 +66,25 @@ RSpec.describe Virtuatable::Helpers::Routes do
           expect(klass.routes.count).to be 1
         end
       end
+      describe 'Permissions added to the route' do
+        let!(:admins) { create(:administrators) }
+        let!(:users) { create(:users) }
+        let!(:klass) {
+          Class.new do
+            extend Virtuatable::Helpers::Routes
+
+            api_route 'GET', '/path'
+          end
+        }
+        let!(:route) { klass.routes.first }
+
+        it 'Has added one group to the route' do
+          expect(route.groups.count).to be 1
+        end
+        it 'Has added the correct group to the route' do
+          expect(route.groups.first.slug).to eq 'administrators'
+        end
+      end
     end
   end
 end

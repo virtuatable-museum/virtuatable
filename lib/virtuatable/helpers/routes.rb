@@ -34,6 +34,7 @@ module Virtuatable
           authenticated: options[:authenticated]
         )
         routes.nil? ? @routes = [route] : push_route(route)
+        add_permissions(route)
         route
       end
 
@@ -41,6 +42,12 @@ module Virtuatable
         @routes << route if routes.none? do |tmp_route|
           route.id == tmp_route.id
         end
+      end
+
+      def add_permissions(route)
+        route.groups = Arkaan::Permissions::Group.where(is_superuser: true)
+        route.save!
+        route
       end
 
       def complete_path(path)
