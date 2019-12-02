@@ -13,18 +13,20 @@ module Virtuatable
     # Loads the application in normal mode, call this from a config.ru file to
     # load the environment, configuration, and require the necessary files.
     # @param name [String] the name of the service you're loading.
-    def self.load!(name)
-      Virtuatable::Builders::Base(
-        locations: caller_locations,
+    def self.load!(name, locations: caller_locations, path: '.')
+      self.instance.builder = Virtuatable::Builders::Base.new(
+        locations: locations,
+        path: path,
         name: name
       )
     end
 
     # Loads the application from a spec/spec_helper to load the specs.
     # @param name [String] the name of the service to load the specs of.
-    def self.load_tests!(name)
-      Virtuatable::Builders::Tests(
-        locations: caller_locations,
+    def self.load_tests!(name, locations: caller_locations, path: '..')
+      self.instance.builder = Virtuatable::Builders::Tests.new(
+        locations: locations,
+        path: path,
         name: name
       )
     end
