@@ -10,7 +10,7 @@ module Virtuatable
         extend ActiveSupport::Concern
 
         included do
-          declare_loader(:folders, priority: 2)
+          declare_loader(:folders, priority: 3)
         end
 
         def load_folders!

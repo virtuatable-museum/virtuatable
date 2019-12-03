@@ -13,7 +13,7 @@ module Virtuatable
         end
 
         def load_environment!
-          Dotenv.load
+          Dotenv.load("#{mode}.env")
         end
       end
     end

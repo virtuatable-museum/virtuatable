@@ -17,7 +17,7 @@ module Virtuatable
         attr_reader :instance
 
         included do
-          declare_loader(:registration, priority: 3)
+          declare_loader(:registration, priority: 2)
         end
 
         # Registers the service in the micro-services registry (consisting in
