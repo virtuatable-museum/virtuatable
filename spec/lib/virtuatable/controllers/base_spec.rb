@@ -154,6 +154,39 @@ RSpec.describe Virtuatable::Controllers::Base do
     end
   end
 
+  describe 'accounts and sessions helpers' do
+    def app
+      Controllers::Accounts.new
+    end
+    describe 'Nominal case' do
+      let!(:babausse) { create(:babausse) }
+      let!(:session) { create(:session, account: babausse) }
+      it 'should correctly return the account when asked' do
+        get '/account', {session_id: session.token}
+        expect(last_response.body).to include_json(id: babausse.id.to_s)
+      end
+      it 'should return the session' do
+        get '/session', {session_id: session.token}
+        expect(last_response. body).to include_json({id: session.id.to_s})
+      end
+    end
+    describe 'When the account is required bu not given' do
+      before do
+        get '/exception'
+      end
+      it 'Returns a 404 (Not Found) status code' do
+        expect(last_response.status).to be 400
+      end
+      it 'Returns the correct body' do
+        expect(last_response.body).to include_json(
+          status: 400,
+          field: 'session_id',
+          error: 'required'
+        )
+      end
+    end
+  end
+
   describe 'API routes' do
     it_should_behave_like 'a controller', 'controllers', 'get'
   end

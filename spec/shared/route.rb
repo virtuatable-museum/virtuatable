@@ -40,7 +40,6 @@ RSpec.shared_examples 'a controller' do |prefix, verb|
       )
     end
   end
-
   describe 'When a non-premium app tries to access a premium route' do
     before do
       send(verb, "/#{prefix}/premium", {
