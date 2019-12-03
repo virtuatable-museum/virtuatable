@@ -9,7 +9,7 @@ module Virtuatable
       # @param fields [Array<String>] an array of fields names to search in the parameters
       def check_presence(*fields)
         fields.each do |field|
-          api_field_error(field: field) unless field_defined?(field)
+          api_bad_request "#{field}.required" unless field_defined?(field)
         end
       end
 
@@ -29,16 +29,6 @@ module Virtuatable
       # @return [Boolean] TRUE if the field exists, FALSE otherwise.
       def field_defined?(field)
         !params.nil? && params.key?(field) && params[field] != ''
-      end
-
-      # Raises an error concerning the presence of a field.
-      # @param field [String] the name of the field to raise an error about.
-      # @raise [Virtuatable::API::Errors::BadRequest] the HTTP error raised, then caught in the controller.
-      def api_field_error(field:)
-        raise Virtuatable::API::Errors::BadRequest.new(
-          field: field,
-          error: 'required'
-        )
       end
     end
   end

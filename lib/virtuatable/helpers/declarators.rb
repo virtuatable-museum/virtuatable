@@ -24,8 +24,8 @@ module Virtuatable
         # route reload issues when premium is changed. It will
         # add some treatments but avoid many problems        if route.premium
         send(route.verb, route.path) do
-          application!(premium: true) if current_route.premium
-          account! if current_route.authenticated
+          application!(premium: current_route.premium) && gateway!
+          session! if current_route.authenticated
         end
       end
 

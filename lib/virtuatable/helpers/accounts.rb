@@ -8,33 +8,11 @@ module Virtuatable
       # Gets the account linked to the current session.
       # @return [Arkaan::Account] the account linked to the current session.
       def account
-        if respond_to?(:session)
-          account_for(session)
-        else
-          account_for(session_class.where(token: params['session_id']).first)
-        end
+        !respond_to?(:session) || session.nil? ? nil : session.account
       end
 
       def account!
-        raise_required! if account.nil?
-      end
-
-      # Gets the account of a session if it exists, or nil if the session is nil.
-      # @param [Arkaan::Authentication::Session] the session to extract the account from.
-      # @return [Arkaan::Account] the extracted account.
-      def account_for(session)
-        session.nil? ? nil : session.account
-      end
-
-      def session_class
-        Arkaan::Authentication::Session
-      end
-
-      def raise_required!
-        raise Virtuatable::API::Errors::BadRequest.new(
-          field: 'session_id',
-          error: 'required'
-        )
+        api_bad_request 'session_id.required' if account.nil?
       end
     end
   end

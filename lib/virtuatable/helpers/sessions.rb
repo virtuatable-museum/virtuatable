@@ -19,26 +19,10 @@ module Virtuatable
       # @raise [Virtuatable::API::Errors::BadRequest] if the session token is
       #   not correctly given in the parameters.
       def session!
-        raise_required! unless params.key?('session_id')
-        raise_unknown! if session.nil?
+        check_presence 'session_id'
+        api_not_found 'session_id.unknown' if session.nil?
 
         session
-      end
-
-      private
-
-      def raise_required!
-        raise Virtuatable::API::Errors::BadRequest.new(
-          field: 'session_id',
-          error: 'required'
-        )
-      end
-
-      def raise_unknown!
-        raise Virtuatable::API::Errors::NotFound.new(
-          field: 'session_id',
-          error: 'unknown'
-        )
       end
     end
   end

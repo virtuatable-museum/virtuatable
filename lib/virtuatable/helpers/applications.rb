@@ -11,34 +11,11 @@ module Virtuatable
 
       # Looks for the application sending the API's request, and raises error if not found.
       def application!(premium: false)
-        raise_required! unless params.key?('app_key')
-        raise_unknown! if application.nil?
-        raise_forbidden! if premium && !application.premium
+        check_presence 'app_key'
+        api_not_found 'app_key.unknown' if application.nil?
+        api_forbidden 'app_key.forbidden' if premium && !application.premium
 
         application
-      end
-
-      private
-
-      def raise_forbidden!
-        raise Virtuatable::API::Errors::Forbidden.new(
-          field: 'app_key',
-          error: 'forbidden'
-        )
-      end
-
-      def raise_required!
-        raise Virtuatable::API::Errors::BadRequest.new(
-          field: 'app_key',
-          error: 'required'
-        )
-      end
-
-      def raise_unknown!
-        raise Virtuatable::API::Errors::NotFound.new(
-          field: 'app_key',
-          error: 'unknown'
-        )
       end
     end
   end
