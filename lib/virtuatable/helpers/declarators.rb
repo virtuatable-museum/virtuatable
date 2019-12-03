@@ -61,8 +61,7 @@ module Virtuatable
       end
 
       def complete_path(path)
-        service_path = builder.service.path == '/' ? '' : builder.service.path
-        "#{service_path}#{path}"
+        "#{builder.service.path}#{path == '/' ? '' : path}"
       end
 
       # Returns the current builder loading the application.
