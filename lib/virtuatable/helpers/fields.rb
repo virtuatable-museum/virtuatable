@@ -19,7 +19,7 @@ module Virtuatable
       # @param fields [Array<String>] an array of fields names to search in the parameters
       # @param key [String] the key to search in the errors configuration file.
       def check_either_presence(*fields, key:)
-        api_field_error(field: key) if fields.none? do |field|
+        api_bad_request "#{key}.required" if fields.none? do |field|
           field_defined?(field)
         end
       end

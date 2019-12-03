@@ -187,6 +187,35 @@ RSpec.describe Virtuatable::Controllers::Base do
     end
   end
 
+  describe 'fields helpers' do
+    describe :check_either_presence do
+      def app
+        Controllers::Fields.new
+      end
+      describe 'Nominal case' do
+        it 'Returns a 200 (OK) status code' do
+          get '/fields', {key: 'value'}
+          expect(last_response.status).to be 200
+        end
+      end
+      describe 'When none of the fields are given' do
+        before do
+          get '/fields'
+        end
+        it 'Returns a 400 (Bad Request) status code' do
+          expect(last_response.status).to be 400
+        end
+        it 'Returns the correct body' do
+          expect(last_response.body).to include_json(
+            status: 400,
+            field: 'custom_label',
+            error: 'required'
+          )
+        end
+      end
+    end
+  end
+
   describe 'API routes' do
     it_should_behave_like 'a controller', 'controllers', 'get'
   end
