@@ -20,14 +20,12 @@ module Virtuatable
         options = default_options.merge(options)
         route = add_route(verb: verb, path: path, options: options)
 
-        if route.premium
-          send(route.verb, route.path) do
-            application!(premium: true)
-          end
-        else
-          send(route.verb, route.path) do
-
-          end
+        # TODO : do everything in the #send itself to avoid
+        # route reload issues when premium is changed. It will
+        # add some treatments but avoid many problems        if route.premium
+        send(route.verb, route.path) do
+          application!(premium: true) if current_route.premium
+          account! if current_route.authenticated
         end
       end
 

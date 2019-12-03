@@ -31,7 +31,7 @@ module Virtuatable
       end
 
       def raise_required!
-        raise Virtuatable::API::Errors::BadRequest(
+        raise Virtuatable::API::Errors::BadRequest.new(
           field: 'session_id',
           error: 'required'
         )

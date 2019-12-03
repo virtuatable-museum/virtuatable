@@ -18,6 +18,10 @@ module Virtuatable
       include Virtuatable::Helpers::Applications
       # Include checkers for field requirement and check
       include Virtuatable::Helpers::Fields
+      # Include the getter for the currently requested route.
+      include Virtuatable::Helpers::Routes
+      # Include the getter and checkers for accounts.
+      include Virtuatable::Helpers::Accounts
       # This module is extended, not included, because it provides routes
       # declaration methods used in class declarations.
       extend Virtuatable::Helpers::Declarators
