@@ -12,8 +12,9 @@ module Virtuatable
 
         # Declares a loader in the current builder class.
         # @param loader [Symbol] the name of the loader, infered as the method name to call.
-        def declare_loader(loader)
-          @loaders.nil? ? @loaders = [loader] : @loaders << loader
+        def declare_loader(loader, priority:)
+          loader_h = {name: loader.to_sym, priority: priority}
+          @loaders.nil? ? @loaders = [loader_h] : @loaders << loader_h
         end
       end
     end

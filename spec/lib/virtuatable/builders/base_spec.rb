@@ -24,10 +24,10 @@ RSpec.describe Virtuatable::Builders::Base do
 
   describe :loaders do
     it 'Contains the Mongoid loader' do
-      expect(Virtuatable::Builders::Base.loaders).to include :mongoid
+      expect(Virtuatable::Builders::Base.loaders).to include({name: :mongoid, priority: 1})
     end
     it 'Contains the environment loader' do
-      expect(Virtuatable::Builders::Base.loaders).to include :environment
+      expect(Virtuatable::Builders::Base.loaders).to include({name: :environment, priority: 0})
     end
   end
 

@@ -19,8 +19,8 @@ module Virtuatable
         path: path,
         name: name
       )
-      builder.load!
       self.instance.builder = builder
+      builder.load!
       builder
     end
 
@@ -32,8 +32,8 @@ module Virtuatable
         path: path,
         name: name
       )
-      builder.load!
       self.instance.builder = builder
+      builder.load!
       builder
     end
 

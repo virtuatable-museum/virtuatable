@@ -36,7 +36,7 @@ module Virtuatable
       # @param path [String] the path used to request this route.
       # @return [Arkaan::Monitoring::Route] the created route.
       def add_route(verb:, path:, options:)
-        route = Arkaan::Monitoring::Route.first_or_create!(
+        route = Arkaan::Monitoring::Route.find_or_create_by!(
           path: complete_path(path),
           verb: verb.downcase,
           premium: options[:premium],
@@ -48,6 +48,8 @@ module Virtuatable
         route
       end
 
+      # Pushes the route in the api routes list, by creating it if needed
+      # @param route [Arkaan::Monitoring::Route] the route to push in the list of routes.
       def push_route(route)
         @api_routes << route if api_routes.none? do |tmp_route|
           route.id == tmp_route.id

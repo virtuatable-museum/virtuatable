@@ -15,6 +15,10 @@ module Virtuatable
         end
       end
 
+      def account!
+        raise_required! if account.nil?
+      end
+
       # Gets the account of a session if it exists, or nil if the session is nil.
       # @param [Arkaan::Authentication::Session] the session to extract the account from.
       # @return [Arkaan::Account] the extracted account.
@@ -24,6 +28,13 @@ module Virtuatable
 
       def session_class
         Arkaan::Authentication::Session
+      end
+
+      def raise_required!
+        raise Virtuatable::API::Errors::BadRequest(
+          field: 'session_id',
+          error: 'required'
+        )
       end
     end
   end

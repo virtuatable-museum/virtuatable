@@ -6,6 +6,7 @@ FactoryBot.define do
       premium { false }
 
       factory :premium_app do
+        name { 'Premium application' }
         key { 'premium_key' }
         premium { true }
       end
