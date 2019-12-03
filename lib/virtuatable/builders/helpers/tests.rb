@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Virtuatable
   module Builders
     module Helpers
@@ -7,7 +9,7 @@ module Virtuatable
         extend ActiveSupport::Concern
 
         included do
-          declare_loader(:tests)
+          declare_loader(:tests, priority: 4)
         end
 
         def load_tests!

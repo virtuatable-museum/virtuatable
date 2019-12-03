@@ -44,7 +44,7 @@ module Virtuatable
 
       def load!
         all_loaders.each do |loader|
-          send(:"load_#{loader}!")
+          send(:"load_#{loader[:name]}!")
         end
       end
 
@@ -55,7 +55,7 @@ module Virtuatable
         names = ['INSTANCE_TYPE']
         names.each do |varname|
           exception_klass = Virtuatable::Builders::Errors::MissingEnv
-          raise exception_klass.new(variable: varname) if !ENV.key?(varname)
+          raise exception_klass.new(variable: varname) unless ENV.key?(varname)
         end
       end
 
@@ -74,13 +74,21 @@ module Virtuatable
         end
       end
 
+      def sanitized_ancestors
+        self.class.ancestors - self.class.included_modules
+      end
+
       # Gets the loaders of the current class and all its ancestors that have loaders
       # @return [Array<Symbol>] the name of the loaders declared.
       def all_loaders
-        ancestors_loaders = self.class.ancestors.map do |ancestor|
+        superclasses = sanitized_ancestors.select do |ancestor|
+          ancestor != self.class
+        end
+        ancestors_loaders = superclasses.map do |ancestor|
           ancestor.respond_to?(:loaders) ? ancestor.loaders : []
         end
-        (self.class.loaders + ancestors_loaders.flatten).uniq
+        flattened_loaders = (ancestors_loaders + self.class.loaders).flatten
+        flattened_loaders.sort_by { |loader| loader[:priority] }
       end
     end
   end

@@ -13,26 +13,10 @@ module Virtuatable
 
       # Checks the gateway requesting the service and raises an error if necessary.
       def gateway!
-        raise_required! unless params.key?('token')
-        raise_unknown! if gateway.nil?
+        check_presence 'token'
+        api_not_found 'token.unknown' if gateway.nil?
 
         gateway
-      end
-
-      private
-
-      def raise_required!
-        raise Virtuatable::API::Errors::BadRequest.new(
-          field: 'gateway_token',
-          error: 'required'
-        )
-      end
-
-      def raise_unknown!
-        raise Virtuatable::API::Errors::NotFound.new(
-          field: 'gateway_token',
-          error: 'unknown'
-        )
       end
     end
   end

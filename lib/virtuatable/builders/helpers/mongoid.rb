@@ -9,7 +9,7 @@ module Virtuatable
         extend ActiveSupport::Concern
 
         included do
-          declare_loader(:mongoid)
+          declare_loader(:mongoid, priority: 1)
         end
 
         def load_mongoid!

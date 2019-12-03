@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Virtuatable
   module Builders
     # Module holding the errors raised at the loading of the service

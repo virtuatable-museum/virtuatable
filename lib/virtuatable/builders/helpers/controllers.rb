@@ -14,6 +14,7 @@ module Virtuatable
         # has already been fully required, therefore all constants are declared.
         def controllers
           return [] if defined?(::Controllers).nil?
+
           classes = Controllers.constants.map { |symbol| get_const(symbol) }
           classes.select { |symbol| symbol.is_a? Class }
         end

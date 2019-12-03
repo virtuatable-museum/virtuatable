@@ -9,7 +9,7 @@ module Virtuatable
         extend ActiveSupport::Concern
 
         included do
-          declare_loader(:environment)
+          declare_loader(:environment, priority: 0)
         end
 
         def load_environment!
