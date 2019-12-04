@@ -6,5 +6,6 @@ module Virtuatable
   # @author Vincent Courtois <courtois.vincent@outlook.com>
   module API
     autoload :Errors, 'virtuatable/api/errors'
+    autoload :Responses, 'virtuatable/api/responses'
   end
 end

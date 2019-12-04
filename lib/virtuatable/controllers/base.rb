@@ -8,8 +8,9 @@ module Virtuatable
     class Base < Sinatra::Base
       register Sinatra::ConfigFile
       helpers Sinatra::CustomLogger
-      # Includes the custom errors throwers.
+      # Includes the custom errors throwers and responses helpers.
       include Virtuatable::API::Errors
+      include Virtuatable::API::Responses
       # Includes the checking methods for sessions.
       include Virtuatable::Helpers::Sessions
       # Include the checkers and getters for the API gateway.

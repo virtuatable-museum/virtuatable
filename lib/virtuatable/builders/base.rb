@@ -81,8 +81,8 @@ module Virtuatable
       # Gets the loaders of the current class and all its ancestors that have loaders
       # @return [Array<Symbol>] the name of the loaders declared.
       def all_loaders
-        superclasses = sanitized_ancestors.select do |ancestor|
-          ancestor != self.class
+        superclasses = sanitized_ancestors.reject do |ancestor|
+          ancestor == self.class
         end
         ancestors_loaders = superclasses.map do |ancestor|
           ancestor.respond_to?(:loaders) ? ancestor.loaders : []
