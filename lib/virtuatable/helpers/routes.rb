@@ -4,7 +4,9 @@ module Virtuatable
       def current_route
         splitted = request.env['sinatra.route'].split(' ')
         verb = splitted.first.downcase
-        Arkaan::Monitoring::Route.find_by(verb: verb, path: splitted.last)
+        self.class.api_routes.find do |route|
+          route.verb == verb && route.path == splitted.last
+        end
       end
     end
   end

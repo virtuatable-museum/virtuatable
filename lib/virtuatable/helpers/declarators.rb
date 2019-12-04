@@ -26,6 +26,7 @@ module Virtuatable
         send(route.verb, route.path) do
           application!(premium: current_route.premium) && gateway!
           session! if current_route.authenticated
+          instance_eval(&block)
         end
       end
 
