@@ -13,7 +13,8 @@ module Virtuatable
         end
 
         def load_environment!
-          Dotenv.load("#{mode}.env")
+          Dotenv.load('.env', "#{mode}.env")
+          Virtuatable::Specs.include_shared_examples
         end
       end
     end
