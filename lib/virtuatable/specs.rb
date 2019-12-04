@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Virtuatable
   # This module holds all the logic for the specs tools for all micro services (shared examples and other things).
   # @author Vincent Courtois <courtois.vincent@outlook.com>

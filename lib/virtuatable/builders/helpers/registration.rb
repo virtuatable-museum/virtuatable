@@ -23,7 +23,7 @@ module Virtuatable
         # Registers the service in the micro-services registry (consisting in
         # the arkaan_monitoring_services and arkaan_monitoring_instances collections)
         def load_registration!
-          @service = Arkaan::Monitoring::Service.first_or_create!(
+          @service = Arkaan::Monitoring::Service.find_or_create_by!(
             key: @name,
             path: "/#{@name}"
           )
