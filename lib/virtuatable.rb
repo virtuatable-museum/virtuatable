@@ -9,4 +9,5 @@ module Virtuatable
   autoload :Controllers, 'virtuatable/controllers'
   autoload :Helpers, 'virtuatable/helpers'
   autoload :Loader, 'virtuatable/application'
+  autoload :Specs, 'virtuatable/specs'
 end
