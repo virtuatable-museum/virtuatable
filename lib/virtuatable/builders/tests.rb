@@ -7,6 +7,7 @@ module Virtuatable
     # @author Vincent Courtois <courtois.vincent@outlook.com>
     class Tests < Virtuatable::Builders::Base
       include Virtuatable::Builders::Helpers::Tests
+      include Virtuatable::Builders::Helpers::Specs
 
       def initialize(path: '..', name:, locations: caller_locations)
         super(locations: locations, path: path, name: name)
