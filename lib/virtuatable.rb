@@ -7,6 +7,7 @@ module Virtuatable
   autoload :Application, 'virtuatable/application'
   autoload :Builders, 'virtuatable/builders'
   autoload :Controllers, 'virtuatable/controllers'
+  autoload :Enhancers, 'virtuatable/enhancers'
   autoload :Helpers, 'virtuatable/helpers'
   autoload :Loader, 'virtuatable/application'
 end
