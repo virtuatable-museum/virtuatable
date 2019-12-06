@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Virtuatable
   # The enhancers are the equivalent of a decorator.
   # It provides a simple system to add features to a class

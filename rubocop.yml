@@ -3,4 +3,4 @@ Metrics/LineLength:
   IgnoredPatterns: ['(\A|\s)#']
 AllCops:
   Exclude:
-    - lib/virtuatable/specs.rb
+    - lib/virtuatable/builders/helpers/specs.rb
