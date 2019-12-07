@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Virtuatable
   module Enhancers
     # Helpers hold the secondary modules extended or included in the base enhancer.

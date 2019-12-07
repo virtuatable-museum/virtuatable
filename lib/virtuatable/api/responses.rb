@@ -33,7 +33,7 @@ module Virtuatable
       # Displays a message with a 200 status code
       # @param message [String] the message to display with the API standards.
       def api_ok(message)
-        api_item({message: message})
+        api_item message: message
       end
     end
   end

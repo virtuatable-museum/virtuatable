@@ -14,7 +14,7 @@ module Virtuatable
       
         # Includes all the shared examples you could need, describing the basic behaviour of a route.
         def load_specs!
-          unless @declared == true
+          unless self.class.class_variable_defined?(:@@declared)
             RSpec.shared_examples 'a route' do |_verb, _path, _options = {}|
               let(:verb) { _verb.to_sym }
               let(:path) { _path }
@@ -176,7 +176,7 @@ module Virtuatable
                 end
               end
             end
-            @declared = true
+            @@declared = true
           end
         end
       end
