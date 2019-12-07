@@ -52,7 +52,7 @@ module Virtuatable
       # @raise [Virtuatable::Builders::Errors::MissingEnv] if a variable is not present,
       #   for a variable to be present she has to be a key of the ENV constant.
       def check_variables!
-        names = ['INSTANCE_TYPE']
+        names = ['INSTANCE_TYPE', 'SERVICE_URL', 'APP_KEY']
         names.each do |varname|
           exception_klass = Virtuatable::Builders::Errors::MissingEnv
           raise exception_klass.new(variable: varname) unless ENV.key?(varname)
