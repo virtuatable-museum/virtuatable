@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.authors     = ['Vincent Courtois']
   spec.email       = 'courtois.vincent@outlook.com'
   spec.files       = Dir['lib/**/*.rb']
-  spec.homepage    = 'https://rubygems.org/gems/arkaan'
+  spec.homepage    = 'https://rubygems.org/gems/virtuatable'
   spec.license     = 'MIT'
 
   spec.add_development_dependency 'rspec'                  , '3.6.0'
@@ -26,15 +26,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop'                , '0.76.0'
 
   spec.add_runtime_dependency 'mongoid'        , '7.0.1'
-  spec.add_runtime_dependency 'arkaan'         , '1.9.0'
-  spec.add_runtime_dependency 'activemodel'    , '5.2.3'
+  spec.add_runtime_dependency 'arkaan'         , '>=2.0.0'
   spec.add_runtime_dependency 'activesupport'  , '5.2.3'
-  spec.add_runtime_dependency 'bcrypt'         , '3.1.11'
   spec.add_runtime_dependency 'sinatra'        , '2.0.5'
   spec.add_runtime_dependency 'sinatra-contrib', '2.0.5'
-  spec.add_runtime_dependency 'platform-api'   , '2.1.0'
-  spec.add_runtime_dependency 'faraday'        , '0.15.2'
-  spec.add_runtime_dependency 'actionview'     , '5.2.3'
   spec.add_runtime_dependency 'dotenv'         , '2.7.2'
   spec.add_runtime_dependency 'require_all'    , '3.0.0'
 end
