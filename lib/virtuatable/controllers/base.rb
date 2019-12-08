@@ -23,6 +23,8 @@ module Virtuatable
       include Virtuatable::Helpers::Routes
       # Include the getter and checkers for accounts.
       include Virtuatable::Helpers::Accounts
+      # Include the loading of the parameters from the JSON body
+      include Virtuatable::Helpers::Parameters
       # This module is extended, not included, because it provides routes
       # declaration methods used in class declarations.
       extend Virtuatable::Helpers::Declarators

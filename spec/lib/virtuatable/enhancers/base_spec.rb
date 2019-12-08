@@ -37,4 +37,19 @@ RSpec.describe Virtuatable::Enhancers::Base do
       expect(account.enhance!.id).to eq account.id
     end
   end
+
+  describe 'not existing method' do
+    it 'Should raise an error when the method does not exist' do
+      expect(->{ enhancer.not_existing_method }).to raise_error(NoMethodError)
+    end
+  end
+
+  describe :respond_to? do
+    it 'Returns TRUE if the method exists on the decorated object' do
+      expect(enhancer.respond_to?(:username)).to be true
+    end
+    it 'Returns FALSE if the method does not exist ont he decorated object' do
+      expect(enhancer.respond_to?(:not_existing_method)).to be false
+    end
+  end
 end

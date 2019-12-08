@@ -216,6 +216,55 @@ RSpec.describe Virtuatable::Controllers::Base do
     end
   end
 
+  describe :params do
+    def app
+      Controllers::Parameters.new
+    end
+    describe 'From a query with JSON body' do
+      before do
+        post '/body/1', {key: 'value'}.to_json
+      end
+      it 'Returns a 200 (OK) status code' do
+        expect(last_response.status).to be 200
+      end
+      it 'Returns the correct body' do
+        expect(last_response.body).to include_json(
+          id: '1',
+          key: 'value'
+        )
+      end
+    end
+    describe 'From a query with a querystring' do
+      before do
+        get '/querystring/1', {key: 'value'}
+      end
+      it 'Returns a 200 (OK) status code' do
+        expect(last_response.status).to be 200
+      end
+      it 'Returns the correct body' do
+        expect(last_response.body).to include_json(
+          id: '1',
+          key: 'value'
+        )
+      end
+    end
+    describe 'From a query with both' do
+      before do
+        post '/both/1?foo=bar', {key: 'value'}.to_json
+      end
+      it 'Returns a 200 (OK) status code' do
+        expect(last_response.status).to be 200
+      end
+      it 'Returns the correct body' do
+        expect(last_response.body).to include_json(
+          id: '1',
+          foo: 'bar',
+          key: 'value'
+        )
+      end
+    end
+  end
+
   describe 'API routes' do
     it_should_behave_like 'a controller', 'controllers', 'get'
   end
