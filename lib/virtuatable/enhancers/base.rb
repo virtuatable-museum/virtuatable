@@ -18,12 +18,18 @@ module Virtuatable
         @object = object
       end
 
+      # That's the heart of the enhancers mecanism. This method sends the call
+      # to the decorated object if this one can answer it, or raises an error.
+      # @param name [String, Symbol] the name of the method to call on the decorated object.
+      # @param args [Array] the arguments passed during the call to the function.
+      # @param block [Block] the optional blockcode passed to the function.
       def method_missing(name, *args, &block)
-        return object.send(name, *args, &block) if object.respond_to? name
-
-        super
+        object.respond_to?(name) ? object.send(name, *args, &block) : super
       end
 
+      # Determines if this object can transfer any of its calls to the decorated object.
+      # @param name [String] the name of the called function.
+      # @return [Boolean] TRUE if the decorated object can answer the call, FALSE otherwise.
       def respond_to_missing?(name, _include_private = false)
         object.respond_to? name
       end

@@ -11,6 +11,8 @@ module Virtuatable
         !respond_to?(:session) || session.nil? ? nil : session.account
       end
 
+      # Raises a bad request error if the account if not found.
+      # @raise [Virtuatable::API::Errors::BadRequest] the error raised when the account is not found.
       def account!
         api_bad_request 'session_id.required' if account.nil?
       end

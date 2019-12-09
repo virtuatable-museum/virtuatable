@@ -6,6 +6,9 @@ module Virtuatable
     # Arkaan::Monitoring::Route object from whithin sinatra routes.
     # @author Vincent Courtois <courtois.vincent@outlook.com>
     module Routes
+      # The currently requested API route, used to see inside the block
+      # if the route is premium or not, authenticated or not.
+      # @return [Arkaan::Monitoring::Route] the currently requested route.
       def current_route
         splitted = request.env['sinatra.route'].split(' ')
         verb = splitted.first.downcase

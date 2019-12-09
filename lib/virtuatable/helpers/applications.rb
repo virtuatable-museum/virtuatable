@@ -5,6 +5,8 @@ module Virtuatable
     # Helpers to get and check OAuth applications connecting the the application.
     # @author Vincent Courtois <courtois.vincent@outlook.com>
     module Applications
+      # The application currently requesting the API.
+      # @return [Arkaan::OAuth::Application] the application requesting the API.
       def application
         Arkaan::OAuth::Application.where(key: params['app_key']).first
       end
