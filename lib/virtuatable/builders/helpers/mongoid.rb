@@ -12,6 +12,7 @@ module Virtuatable
           declare_loader(:mongoid, priority: 1)
         end
 
+        # Loads Mongoid configuration file from the standard path.
         def load_mongoid!
           filepath = File.join(@directory, 'config', 'mongoid.yml')
           ::Mongoid.load!(filepath, @mode)

@@ -12,6 +12,7 @@ module Virtuatable
           declare_loader(:environment, priority: 0)
         end
 
+        # Loads the environment variables used in the application.
         def load_environment!
           Dotenv.load('.env', "#{mode}.env")
         end

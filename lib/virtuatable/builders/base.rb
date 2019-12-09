@@ -33,7 +33,11 @@ module Virtuatable
       attr_accessor :name
 
       # Constructor of the builder, initializing needed attributes.
-      # @param directory [String] the directory from which load the application.
+      # @param locations [Array<String>] you should not modify this parameter, it
+      #   determines from which folder the application is supposed to be loaded.
+      # @param path [String] the path from the loaded directory that leads to
+      #   the root of the application (to find all other files and folders)
+      # @param name [String] the name of the loaded service, determining its url.
       def initialize(locations: caller_locations, path: '.', name:)
         # The base folder of the file calling the builder
         filedir = File.dirname(locations.first.absolute_path)
@@ -42,6 +46,8 @@ module Virtuatable
         @name = name.to_s
       end
 
+      # Main method to load the application. This method is called after creating
+      # a builder in the Virtuatable::Application class.
       def load!
         all_loaders.each do |loader|
           send(:"load_#{loader[:name]}!")
@@ -52,7 +58,7 @@ module Virtuatable
       # @raise [Virtuatable::Builders::Errors::MissingEnv] if a variable is not present,
       #   for a variable to be present she has to be a key of the ENV constant.
       def check_variables!
-        names = ['INSTANCE_TYPE', 'SERVICE_URL', 'APP_KEY']
+        names = %w[INSTANCE_TYPE SERVICE_URL APP_KEY]
         names.each do |varname|
           exception_klass = Virtuatable::Builders::Errors::MissingEnv
           raise exception_klass.new(variable: varname) unless ENV.key?(varname)
@@ -66,7 +72,7 @@ module Virtuatable
       end
 
       # Loads a list of folders given as method parameters
-      # @param *folders [Array<String>] the folders names passed as parameters.
+      # @param folders [Array<String>] the folders names passed as parameters.
       def require_folders(*folders)
         folders.each do |folder|
           path = File.join(directory, folder)
@@ -74,6 +80,10 @@ module Virtuatable
         end
       end
 
+      # Returns the ancestors of this class without the included modules.
+      # Ruby puts the included modules in the ancestors and we don't want to
+      # search for the loaders in it as we know it won't be there.
+      # @return [Array<Class>] the ancestors of the class without included modules.
       def sanitized_ancestors
         self.class.ancestors - self.class.included_modules
       end

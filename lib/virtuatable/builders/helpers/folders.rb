@@ -13,6 +13,7 @@ module Virtuatable
           declare_loader(:folders, priority: 3)
         end
 
+        # Requires the main folders to run the application.
         def load_folders!
           require_folders('controllers', 'services', 'decorators')
         end

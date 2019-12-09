@@ -25,6 +25,8 @@ module Virtuatable
           @status = status
         end
 
+        # Returns the formatted message for this exception.
+        # @return [String] a message indicating what field fails, and why.
         def message
           "#{field}.#{error}"
         end

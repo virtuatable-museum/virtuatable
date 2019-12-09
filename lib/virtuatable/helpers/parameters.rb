@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Virtuatable
   module Helpers
     # Helpers to correctly build the parameters hash, even from the JSON body.
@@ -9,13 +11,13 @@ module Virtuatable
       def parameters
         params.merge(body_params)
       end
-      
+
       # The parameters from the JSON body if it is sent.
       # @return [Hash] the JSON body parsed as a dictionary.
       def body_params
-        request.body.rewind 
+        request.body.rewind
         JSON.parse(request.body.read.to_s)
-      rescue
+      rescue JSON::ParserError
         {}
       end
     end

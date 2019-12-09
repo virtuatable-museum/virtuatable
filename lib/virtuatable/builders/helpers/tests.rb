@@ -12,6 +12,9 @@ module Virtuatable
           declare_loader(:tests, priority: 4)
         end
 
+        # Loads the folders containing files related to the tests.
+        # - spec/support contains files used to confiture each test module
+        # - spec/shared contain all rspec shared examples and contexts
         def load_tests!
           require_folders('spec/support', 'spec/shared')
         end

@@ -55,12 +55,18 @@ module Virtuatable
         end
       end
 
+      # Add the default access permissions to a route. Any group tagged superuser
+      # can automatically access any newly declared_route.
+      # params route [Arkaan::Monitoring::Route] the route to add the permissions to.
       def add_permissions(route)
         route.groups = Arkaan::Permissions::Group.where(is_superuser: true)
         route.save!
         route
       end
 
+      # Returns the complete path (service path + uri) of the given path.
+      # @param path [String] the path to transform and enrich.
+      # @return [String] the compleete path for this uri.
       def complete_path(path)
         "#{builder.service.path}#{path == '/' ? '' : path}"
       end
