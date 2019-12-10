@@ -43,7 +43,7 @@ module Virtuatable
                 Arkaan::OAuth::Application.create(
                   name: 'shared examples application',
                   creator: account,
-                  premium: false
+                  premium: true
                 )
               }
 
@@ -169,6 +169,36 @@ module Virtuatable
                           status: 404,
                           field: 'session_id',
                           error: 'unknown'
+                        )
+                      end
+                    end
+                  end
+                end
+                if _options[:premium] == true
+                  let!(:invalid_app) {
+                    Arkaan::OAuth::Application.create(
+                      name: 'shared examples not premium app',
+                      creator: account,
+                      premium: false
+                    )
+                  }
+                  describe 'forbidden errors' do
+                    describe 'no application key error' do
+                      before do
+                        public_send verb, path, {
+                          session_id: session.token,
+                          token: gateway.token,
+                          app_key: invalid_app.key
+                        }
+                      end
+                      it 'Raises a bad request (400) error when the parameters don\'t contain the session token' do
+                        expect(last_response.status).to be 403
+                      end
+                      it 'returns the correct response if the parameters do not contain a session token' do
+                        expect(last_response.body).to include_json(
+                          status: 403,
+                          field: 'app_key',
+                          error: 'forbidden'
                         )
                       end
                     end
