@@ -38,7 +38,9 @@ module Virtuatable
       end
 
       error Mongoid::Errors::Validations do |errors|
-        api_bad_request errors.document.errors.messages.keys.first
+        key = errors.document.errors.messages.keys.first
+        message = errors.document.errors.messages[key][0]
+        api_bad_request key, message: message
       end
 
       error Virtuatable::API::Errors::NotFound do |exception|
