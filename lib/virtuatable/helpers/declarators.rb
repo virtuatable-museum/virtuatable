@@ -59,9 +59,13 @@ module Virtuatable
       # can automatically access any newly declared_route.
       # params route [Arkaan::Monitoring::Route] the route to add the permissions to.
       def add_permissions(route)
-        route.groups = Arkaan::Permissions::Group.where(is_superuser: true)
-        route.save!
-        route
+        groups = Arkaan::Permissions::Group.where(is_superuser: true)
+        groups.each do |group|
+          unless route.groups.where(id: group.id).exists?
+            route.groups << group
+            route.save!
+          end
+        end
       end
 
       # Returns the complete path (service path + uri) of the given path.
