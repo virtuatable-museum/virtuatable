@@ -16,6 +16,7 @@ module Virtuatable
         def load_mongoid!
           filepath = File.join(@directory, 'config', 'mongoid.yml')
           ::Mongoid.load!(filepath, @mode)
+          ::Mongoid.raise_not_found_error = false
         end
       end
     end
