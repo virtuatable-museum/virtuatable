@@ -5,15 +5,11 @@ module Virtuatable
     # Helpers to get and check OAuth applications connecting the the application.
     # @author Vincent Courtois <courtois.vincent@outlook.com>
     module Applications
-      # The application currently requesting the API.
-      # @return [Arkaan::OAuth::Application] the application requesting the API.
-      def application
-        Arkaan::OAuth::Application.where(key: params['app_key']).first
-      end
 
       # Looks for the application sending the API's request, and raises error if not found.
-      def application!(premium: false)
+      def application(premium: false)
         check_presence 'app_key'
+        application = Arkaan::OAuth::Application.find_by(key: params['app_key'])
         api_not_found 'app_key.unknown' if application.nil?
         api_forbidden 'app_key.forbidden' if premium && !application.premium
 

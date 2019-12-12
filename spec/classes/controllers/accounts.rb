@@ -4,10 +4,10 @@ module Controllers
       halt 200, {id: account.id.to_s}.to_json
     end
     get '/session' do
-      halt 200, {id: session!.id.to_s}.to_json
+      halt 200, {id: session.id.to_s}.to_json
     end
     get '/exception' do
-      account!
+      account
     end
   end
 end
