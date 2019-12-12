@@ -5,14 +5,14 @@ module Virtuatable
     # These helpers holds getters and checkers about API gateways.
     # @author Vincent Courtois <courtois.vincent@outlook.com>
     module Gateways
-
       # Checks the gateway requesting the service and raises an error if necessary.
+      # @return [Arkaan::Monitoring::Gateway] the current gateway requesting the service.
       def gateway
-        check_presence 'token'
-        gateway = Arkaan::Monitoring::Gateway.find_by(token: params['token'])
-        api_not_found 'token.unknown' if gateway.nil?
+        return @gateway unless @gateway.nil?
 
-        gateway
+        check_presence 'token'
+        @gateway = Arkaan::Monitoring::Gateway.find_by(token: params['token'])
+        @gateway.nil? ? api_not_found('token.unknown') : @gateway
       end
     end
   end

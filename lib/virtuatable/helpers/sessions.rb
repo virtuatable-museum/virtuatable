@@ -5,7 +5,6 @@ module Virtuatable
     # This helper gives access to methods about user's session on the API.
     # @author Vincent Courtois <courtois.vincent@outlook.com>
     module Sessions
-
       # Checks the session of the user requesting the API and returns an error
       # if it either not exists with the given token, or the token is not given.
       #
@@ -16,11 +15,15 @@ module Virtuatable
       #
       # @return [Arkaan::Authentication::Session] the current session of the user.
       def session
-        check_presence 'session_id'
-        session = Arkaan::Authentication::Session.find_by(token: params['session_id'])
-        api_not_found 'session_id.unknown' if session.nil?
+        return @session unless @session.nil?
 
-        session
+        check_presence 'session_id'
+        @session = session_model.find_by(token: params['session_id'])
+        @session.nil? ? api_not_found('session_id.unknown') : @session
+      end
+
+      def session_model
+        Arkaan::Authentication::Session
       end
     end
   end

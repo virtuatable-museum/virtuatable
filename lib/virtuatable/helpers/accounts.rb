@@ -5,14 +5,17 @@ module Virtuatable
     # These helpers provide methods used to get and check accounts.
     # @author Vincent Courtois <courtois.vincent@outlook.com>
     module Accounts
-
       # Raises a bad request error if the account if not found.
       # @raise [Virtuatable::API::Errors::BadRequest] the error raised when the account is not found.
       def account
-        account = (!respond_to?(:session) || session.nil?) ? nil : session.account
-        api_bad_request 'session_id.required' if account.nil?
+        return @account unless @account.nil?
 
-        account
+        session_id_required if !respond_to?(:session) || session.nil?
+        @account = session.account
+      end
+
+      def account_id_not_found
+        api_bad_request('session_id.required')
       end
     end
   end
