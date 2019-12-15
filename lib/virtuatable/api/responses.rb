@@ -21,19 +21,26 @@ module Virtuatable
       # returning the informations about the created item.
       # @param item [Object] any object that responds to #to_h to display to the user.
       def api_created(item)
-        halt 201, item.to_h.to_json
+        halt 201, enhanced_json(item)
       end
 
       # Displays an item with the standards of the API.
       # @param item [Object] the item to display as a JSON formatted hash.
       def api_item(item)
-        halt 200, item.to_h.to_json
+        halt 200, enhanced_json(item)
       end
 
       # Displays a message with a 200 status code
       # @param message [String] the message to display with the API standards.
       def api_ok(message)
         api_item message: message
+      end
+
+      private
+
+      def enhanced_json(item)
+        item = item.enhance if item.respond_to?(:enhance)
+        item.to_h.to_json
       end
     end
   end

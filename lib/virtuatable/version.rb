@@ -2,5 +2,5 @@
 
 module Virtuatable
   # Current version of the gem, used to package it.
-  VERSION = '1.2.1'
+  VERSION = '1.2.2'
 end

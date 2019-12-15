@@ -29,12 +29,12 @@ RSpec.describe Virtuatable::Enhancers::Base do
     end
   end
 
-  describe :enhance! do
+  describe :enhance do
     it 'Creates a decorator correctly' do
-      expect(account.enhance!).to be_a_kind_of(::Enhancers::Account)
+      expect(account.enhance).to be_a_kind_of(::Enhancers::Account)
     end
     it 'Creates a decorator with the correct inner object' do
-      expect(account.enhance!.id).to eq account.id
+      expect(account.enhance.id).to eq account.id
     end
   end
 
