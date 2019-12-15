@@ -24,7 +24,7 @@ module Virtuatable
               self_class
             end
           end
-          class_object.define_method :enhance! do
+          class_object.define_method :enhance do
             self_class.new(self)
           end
         end
