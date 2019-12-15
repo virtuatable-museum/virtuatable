@@ -1,10 +1,17 @@
 RSpec.describe Virtuatable::Enhancers::Base do
+  let!(:group) {
+    Arkaan::Permissions::Group.new(slug: 'test_group')
+  }
   let!(:account) {
     Arkaan::Account.new(
       username: 'Babausse',
       email: 'test@enhancers.com',
-      lastname: 'Courtois'
+      lastname: 'Courtois',
+      groups: [group]
     )
+  }
+  let!(:application) {
+    Arkaan::OAuth::Application.new(name: 'Test app', key: 'test_app_key', creator: account)
   }
   let!(:enhancer) {
     ::Enhancers::Account.new(account)
@@ -50,6 +57,15 @@ RSpec.describe Virtuatable::Enhancers::Base do
     end
     it 'Returns FALSE if the method does not exist ont he decorated object' do
       expect(enhancer.respond_to?(:not_existing_method)).to be false
+    end
+  end
+
+  describe :associations do
+    it 'returns a decorated collection if available' do
+      expect(enhancer.groups.first).to be_a_kind_of(Enhancers::Group)
+    end
+    it 'returns the original documents if not enhanced' do
+      expect(enhancer.applications.first).to be_a_kind_of(Arkaan::OAuth::Application)
     end
   end
 end
