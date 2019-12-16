@@ -1,6 +1,12 @@
 RSpec.describe Virtuatable::Enhancers::Base do
+  let!(:category) {
+    Arkaan::Permissions::Category.new(slug: 'category')
+  }
   let!(:group) {
     Arkaan::Permissions::Group.new(slug: 'test_group')
+  }
+  let!(:right) {
+    Arkaan::Permissions::Right.new(slug: 'right', groups: [group], category: category)
   }
   let!(:account) {
     Arkaan::Account.new(
@@ -64,8 +70,11 @@ RSpec.describe Virtuatable::Enhancers::Base do
     it 'returns a decorated collection if available' do
       expect(enhancer.groups.first).to be_a_kind_of(Enhancers::Group)
     end
-    it 'returns the original documents if not enhanced' do
-      expect(enhancer.applications.first).to be_a_kind_of(Arkaan::OAuth::Application)
+    it 'returns the original documents wrapped if not enhanced' do
+      expect(enhancer.applications.first.object).to be_a_kind_of(Arkaan::OAuth::Application)
+    end
+    it 'returns an undecorated belongs_to element wrapped in a base enhancer' do
+      expect(Virtuatable::Enhancers::Base.new(right).category).to be_a_kind_of(Virtuatable::Enhancers::Base)
     end
   end
 end
