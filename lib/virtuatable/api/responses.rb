@@ -13,7 +13,7 @@ module Virtuatable
       def api_list(items)
         halt 200, {
           count: items.count,
-          items: items.map(&:to_h)
+          items: items.map { |item| enhanced_h(item) }
         }.to_json
       end
 
@@ -38,9 +38,12 @@ module Virtuatable
 
       private
 
+      def enhanced_h(item)
+        (item.respond_to?(:enhance) ? item.enhance : item).to_h
+      end
+
       def enhanced_json(item)
-        item = item.enhance if item.respond_to?(:enhance)
-        item.to_h.to_json
+        enhanced_h(item).to_json
       end
     end
   end
