@@ -271,7 +271,7 @@ RSpec.describe Virtuatable::Controllers::Base do
     let!(:service) { Virtuatable::Application.builder.service }
     let!(:administrators) { create(:administrators)}
     let!(:route) {
-      route = create(:route, service: service, path: '/controllers/test')
+      route = create(:route, service: service, path: '/test')
       route.groups << users
       route.save
       route

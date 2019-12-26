@@ -22,8 +22,8 @@ module Virtuatable
 
         # TODO : do everything in the #send itself to avoid
         # route reload issues when premium is changed. It will
-        # add some treatments but avoid many problems        if route.premium
-        send(route.verb, route.path) do
+        # add some treatments but avoid many problems if route.premium
+        send(route.verb, route.complete_path) do
           application(premium: current_route.premium) && gateway
           session if current_route.authenticated
           instance_eval(&block)
@@ -36,7 +36,7 @@ module Virtuatable
       # @return [Arkaan::Monitoring::Route] the created route.
       def add_route(verb:, path:, options:)
         route = Arkaan::Monitoring::Route.find_or_create_by!(
-          path: complete_path(path),
+          path: path,
           verb: verb.downcase,
           premium: options[:premium],
           service: builder.service,
@@ -66,13 +66,6 @@ module Virtuatable
             route.save!
           end
         end
-      end
-
-      # Returns the complete path (service path + uri) of the given path.
-      # @param path [String] the path to transform and enrich.
-      # @return [String] the compleete path for this uri.
-      def complete_path(path)
-        "#{builder.service.path}#{path == '/' ? '' : path}"
       end
 
       # Returns the current builder loading the application.
