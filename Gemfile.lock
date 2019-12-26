@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    virtuatable (1.5.0)
+    virtuatable (1.6.0)
       activesupport (= 5.2.3)
       arkaan (>= 2.0.0)
       dotenv (= 2.7.2)
@@ -37,7 +37,7 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    arkaan (2.0.0)
+    arkaan (2.1.0)
       actionview (= 5.2.3)
       activemodel (= 5.2.3)
       activesupport (= 5.2.3)
