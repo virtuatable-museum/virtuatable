@@ -15,6 +15,7 @@ module Virtuatable
         # Loads Mongoid configuration file from the standard path.
         def load_mongoid!
           filepath = File.join(@directory, 'config', 'mongoid.yml')
+          filepath = File.readlink(filepath) while File.symlink?(filepath)
           ::Mongoid.load!(filepath, @mode)
           ::Mongoid.raise_not_found_error = false
         end

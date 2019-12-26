@@ -38,13 +38,10 @@ module Virtuatable
 
       def enhance_association(name)
         elements = object.send(name.to_sym)
-        if elements.nil?
-          return nil
-        elsif elements.kind_of?(Enumerable)
-          return enhance_collection(name, elements)
-        elsif elements.respond_to?(:enhance)
-          return elements.enhance
-        end
+        return nil if elements.nil?
+        return enhance_collection(name, elements) if elements.is_a?(Enumerable)
+        return elements.enhance if elements.respond_to?(:enhance)
+
         Virtuatable::Enhancers::Base.new(elements)
       end
 
@@ -52,6 +49,7 @@ module Virtuatable
         if object.associations[name].klass.respond_to?(:enhancer)
           return collection.map(&:enhance)
         end
+
         collection.map { |item| Virtuatable::Enhancers::Base.new(item) }
       end
     end
