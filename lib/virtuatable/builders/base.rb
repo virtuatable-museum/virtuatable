@@ -42,7 +42,7 @@ module Virtuatable
         # The base folder of the file calling the builder
         filedir = File.dirname(locations.first.absolute_path)
         @directory = File.absolute_path(File.join(filedir, path))
-        @mode = :development
+        @mode = (ENV['RACK_ENV'] || 'development').to_sym
         @name = name.to_s
       end
 

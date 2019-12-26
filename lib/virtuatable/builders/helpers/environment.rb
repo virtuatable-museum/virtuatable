@@ -14,7 +14,13 @@ module Virtuatable
 
         # Loads the environment variables used in the application.
         def load_environment!
-          Dotenv.load('.env', "#{mode}.env")
+          loading = Dotenv.load(env_file, env_file(mode))
+          puts loading
+        end
+
+        def env_file(name = '')
+          puts "Chargement du fichier #{File.join(directory, "#{name}.env")}"
+          File.join(directory, "#{name}.env")
         end
       end
     end
