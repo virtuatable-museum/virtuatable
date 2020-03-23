@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    virtuatable (1.7.0)
+    virtuatable (2.0.0)
       activesupport (= 5.2.3)
-      arkaan (= 2.5.0)
+      arkaan (= 2.5.1)
       dotenv (= 2.7.2)
       mongoid (= 7.0.1)
       require_all (= 3.0.0)
@@ -20,7 +20,7 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    arkaan (2.5.0)
+    arkaan (2.5.1)
       activemodel (= 5.2.3)
       activesupport (= 5.2.3)
       bcrypt (= 3.1.11)

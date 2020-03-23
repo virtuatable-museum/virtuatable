@@ -30,15 +30,6 @@ module Virtuatable
                 )
               }
 
-              let!(:gateway) {
-                Arkaan::Monitoring::Gateway.create(
-                  url: 'https://localhost:9000/',
-                  running: true,
-                  active: true,
-                  token: 'shared examples gateway token'
-                )
-              }
-
               let!(:appli) {
                 Arkaan::OAuth::Application.create(
                   name: 'shared examples application',
@@ -56,35 +47,16 @@ module Virtuatable
           
               describe 'common errors' do
                 describe 'bad request errors' do
-                  describe 'no token error' do
-                    before do
-                      public_send verb, path, {
-                        app_key: appli.key,
-                        session_id: session.token
-                      }
-                    end
-                    it 'Raises a bad request (400) error when the parameters don\'t contain the token of the gateway' do
-                      expect(last_response.status).to be 400
-                    end
-                    it 'returns the correct response if the parameters do not contain a gateway token' do
-                      expect(last_response.body).to include_json(
-                        status: 400,
-                        field: 'token',
-                        error: 'required'
-                      )
-                    end
-                  end
                   describe 'no application key error' do
                     before do
                       public_send verb, path, {
-                        token: gateway.token,
                         session_id: session.token
                       }
                     end
                     it 'Raises a bad request (400) error when the parameters don\'t contain the application key' do
                       expect(last_response.status).to be 400
                     end
-                    it 'returns the correct response if the parameters do not contain a gateway token' do
+                    it 'returns the correct response if the parameters do not contain an application key' do
                       expect(last_response.body).to include_json(
                         status: 400,
                         field: 'app_key',
@@ -96,8 +68,7 @@ module Virtuatable
                     describe 'no session token error' do
                       before do
                         public_send verb, path, {
-                          app_key: appli.key,
-                          token: gateway.token
+                          app_key: appli.key
                         }
                       end
                       it 'Raises a bad request (400) error when the parameters don\'t contain the session token' do
@@ -117,7 +88,6 @@ module Virtuatable
                   describe 'application not found' do
                     before do
                       public_send verb, path, {
-                        token: gateway.token,
                         session_id: session.token,
                         app_key: 'invalid application key'
                       }
@@ -133,30 +103,10 @@ module Virtuatable
                       )
                     end
                   end
-                  describe 'gateway not found' do
-                    before do
-                      public_send verb, path, {
-                        token: 'invalid session token',
-                        session_id: session.token,
-                        app_key: appli.key
-                      }
-                    end
-                    it 'Raises a not found (404) error when the gateway does\'nt exist' do
-                      expect(last_response.status).to be 404
-                    end
-                    it 'returns the correct body when the gateway doesn\'t exist' do
-                      expect(last_response.body).to include_json(
-                        status: 404,
-                        field: 'token',
-                        error: 'unknown'
-                      )
-                    end
-                  end
                   if _options[:authenticated] == true
                     describe 'session not found' do
                       before do
                         public_send verb, path, {
-                          token: gateway.token,
                           session_id: 'invalid session token',
                           app_key: appli.key
                         }
@@ -187,7 +137,6 @@ module Virtuatable
                       before do
                         public_send verb, path, {
                           session_id: session.token,
-                          token: gateway.token,
                           app_key: invalid_app.key
                         }
                       end
