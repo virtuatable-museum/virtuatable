@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'sinatra/config_file'
+require 'sinatra/custom_logger'
 
 module Virtuatable
   module Controllers
@@ -13,8 +15,6 @@ module Virtuatable
       include Virtuatable::API::Responses
       # Includes the checking methods for sessions.
       include Virtuatable::Helpers::Sessions
-      # Include the checkers and getters for the API gateway.
-      include Virtuatable::Helpers::Gateways
       # Include the checkers and getters for OAuth apps
       include Virtuatable::Helpers::Applications
       # Include checkers for field requirement and check

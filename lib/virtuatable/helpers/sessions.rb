@@ -20,7 +20,7 @@ module Virtuatable
         check_presence 'session_id'
         @session = session_model.find_by(token: params['session_id'])
         @session.nil? ? api_not_found('session_id.unknown') : @session
-      end
+      end 
 
       def session_model
         Arkaan::Authentication::Session
