@@ -12,9 +12,6 @@ module Virtuatable
         # @!attribute [r] service
         #   @return [Arkaan::Monitoring::Service] the service linked to this application.
         attr_reader :service
-        # @!attribute [r] instance
-        #   @return [Arkaan::Monitoring::Instance] the instance of this application.
-        attr_reader :instance
 
         included do
           declare_loader(:registration, priority: 2)
@@ -26,10 +23,6 @@ module Virtuatable
           @service = Arkaan::Monitoring::Service.find_or_create_by!(
             key: @name,
             path: "/#{@name}"
-          )
-          @instance = service.instances.first_or_create!(
-            type: type,
-            url: ENV['SERVICE_URL']
           )
         end
       end

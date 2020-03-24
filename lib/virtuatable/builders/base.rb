@@ -54,23 +54,6 @@ module Virtuatable
         end
       end
 
-      # Checks the presence of all the needed environment variables.
-      # @raise [Virtuatable::Builders::Errors::MissingEnv] if a variable is not present,
-      #   for a variable to be present she has to be a key of the ENV constant.
-      def check_variables!
-        names = %w[INSTANCE_TYPE SERVICE_URL APP_KEY]
-        names.each do |varname|
-          exception_klass = Virtuatable::Builders::Errors::MissingEnv
-          raise exception_klass.new(variable: varname) unless ENV.key?(varname)
-        end
-      end
-
-      # Returns the type of the instance, default being a UNIX server
-      # @return [Symbol] the type of instance currently loading.
-      def type
-        ENV['INSTANCE_TYPE'].nil? ? :unix : ENV['INSTANCE_TYPE'].to_sym
-      end
-
       # Loads a list of folders given as method parameters
       # @param folders [Array<String>] the folders names passed as parameters.
       def require_folders(*folders)
