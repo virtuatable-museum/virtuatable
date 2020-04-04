@@ -1,0 +1,79 @@
+#!/usr/bin/env ruby
+require 'thor'
+
+class String
+  def apply!(value, field)
+    self.gsub!("{{#{field}}}", value)
+  end
+  def apply_all!(options)
+    options.keys.each do |field|
+      self.apply!(options[field], field)
+    end
+  end
+end
+
+class Command < Thor
+
+  desc 'kube', 'Gets, applies or deletes the Kubernetes configuration for a service'
+  method_option :port, default: '8080'
+  method_option :replicas, default: '3'
+  def kube(action, service)
+    case action
+    when 'display'
+      puts get_config(service, options)
+    when 'create'
+      execute_kubectl_command('apply', service, options)
+    when 'delete'
+      execute_kubectl_command('delete', service, options)
+    end
+  end
+
+  desc 'docker', 'Gets informations about the dockerfile for a project'
+  method_option :port, default: '8080'
+  method_option :bundler, default: '2.1.4'
+  method_option :ruby, default: '2.6.5'
+  def docker(action, service)
+    case action
+    when 'display'
+      puts parse_content('Dockerfile', service, options)
+    when 'create'
+      execute_docker_command(service, options)
+    end
+  end
+
+  def self.exit_on_failure?
+    true
+  end
+
+  private
+
+  def get_dockerfile(service, options)
+    parse_content('Dockerfile', service, options)
+  end
+
+  def parse_content(filename, service, options)
+    filepath = File.join(__dir__, 'utils', filename)
+    content = File.read(filepath)
+    content.apply!(service, 'service')
+    content.apply_all!(options)
+    content
+  end
+
+  def execute_kubectl_command(command, service, options)
+    path = "/tmp/#{service}.yml"
+    file = File.open(path, 'w') do |f|
+      f.write(get_config(service, options))
+    end
+    puts `cat /tmp/#{service}.yml | kubectl #{command} -f -`
+    File.delete(path)
+  end
+
+  def get_config(service, options)
+    parsed = %w(deployment ingress service).map do |filename|
+      parse_content("#{filename}.yml", service, options)
+    end
+    parsed.join("\n---\n")
+  end
+end
+
+Command.start
