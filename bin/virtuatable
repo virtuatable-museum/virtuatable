@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'thor'
-require 'datetime'
+require 'date'
 
 class String
   def apply!(value, field)
