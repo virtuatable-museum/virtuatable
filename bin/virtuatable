@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'thor'
+require 'datetime'
 
 class String
   def apply!(value, field)
@@ -37,7 +38,14 @@ class Command < Thor
     when 'display'
       puts parse_content('Dockerfile', service, options)
     when 'create'
-      execute_docker_command(service, options)
+      merged = remerge_options(options)
+      dt = DateTime.now.strftime('%Q')
+      app = "virtuatable/#{service}"
+      v_command = "virtuatable docker display #{service} #{merged}"
+      d_command = "docker build -t #{app}:#{dt} -t #{app}:latest -f - ."
+      system "#{v_command} | #{d_command}"
+      system "docker push #{app}:#{dt}"
+      system "docker push #{app}:latest"
     end
   end
 
@@ -46,6 +54,13 @@ class Command < Thor
   end
 
   private
+
+  def remerge_options(options)
+    tmp = options.keys.map do |key|
+      "--#{key}=#{options[key]}"
+    end
+    tmp.join(' ')
+  end
 
   def get_dockerfile(service, options)
     parse_content('Dockerfile', service, options)
@@ -64,7 +79,7 @@ class Command < Thor
     file = File.open(path, 'w') do |f|
       f.write(get_config(service, options))
     end
-    puts `cat /tmp/#{service}.yml | kubectl #{command} -f -`
+    system "cat /tmp/#{service}.yml | kubectl #{command} -f -"
     File.delete(path)
   end
 
