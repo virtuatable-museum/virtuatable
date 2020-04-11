@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.description = 'This gem holds controllers, errors, service delcarations, etc. for the Virtuatable services.'
   spec.authors     = ['Vincent Courtois']
   spec.email       = 'courtois.vincent@outlook.com'
-  spec.files       = Dir['lib/**/*.rb', 'bin/utils/Dockerfile', 'bin/utils/*.yml']
+  spec.files       = Dir['lib/**/*.rb', 'bin/utils/Dockerfile', 'bin/utils/*.yml', 'bin/lib/**/*.rb']
   spec.homepage    = 'https://rubygems.org/gems/virtuatable'
   spec.license     = 'MIT'
 
