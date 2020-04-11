@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: "{{service}}"
-        image: "virtuatable/{{service}}:latest"
+        image: "virtuatable/{{service}}:{{version}}"
         env:
         - name: "MONGODB_URL"
           valueFrom:

@@ -1,6 +1,12 @@
 #!/usr/bin/env ruby
 require 'thor'
 require 'date'
+require 'faraday'
+require 'json'
+require 'octokit'
+
+require File.join(__dir__, 'lib', 'files', 'dockerfile.rb')
+require File.join(__dir__, 'lib', 'version.rb')
 
 class String
   def apply!(value, field)
@@ -34,18 +40,36 @@ class Command < Thor
   method_option :bundler, default: '2.1.4'
   method_option :ruby, default: '2.6.5'
   def docker(action, service)
+    dockerfile = Virtuatable::Files::Dockerfile.new(service, options)
     case action
+    when 'latest'
+      puts latest_docker_image(service)
     when 'display'
-      puts parse_content('Dockerfile', service, options)
+      puts dockerfile.content
+    when 'next'
+      puts increase_version(service)
     when 'create'
-      merged = remerge_options(options)
-      dt = DateTime.now.strftime('%Q')
-      app = "virtuatable/#{service}"
-      v_command = "virtuatable docker display #{service} #{merged}"
-      d_command = "docker build -t #{app}:#{dt} -t #{app}:latest -f - ."
-      system "#{v_command} | #{d_command}"
-      system "docker push #{app}:#{dt}"
-      system "docker push #{app}:latest"
+      v = increase_version(service)
+      system "docker build -t virtuatable/#{service}:#{v} -f #{dockerfile.store} ."
+      system "docker push virtuatable/#{service}:#{v}"
+    end
+  end
+
+  desc 'github', 'All commands github relative'
+  def github(action, service)
+    case action
+    when 'last'
+      puts last_commit
+    when 'increment'
+      puts increment(service)
+    when 'release'
+      puts last_release(service)
+    when 'request'
+      if last_merged_pr.nil?
+        puts "Can't find a PR related to #{last_commit}"
+      else
+        puts "Found a PR related to #{last_commit}"
+      end
     end
   end
 
@@ -55,21 +79,64 @@ class Command < Thor
 
   private
 
-  def remerge_options(options)
-    tmp = options.keys.map do |key|
-      "--#{key}=#{options[key]}"
+  def increase_version(service)
+    r = latest_docker_image(service)
+    i = increment(service)
+    Virtuatable::Version.new(r).next(type: i).to_s
+  end
+
+  def client
+    if @client.nil?
+      @client = Octokit::Client.new(access_token: ENV['GITHUB_TOKEN'])
     end
-    tmp.join(' ')
+    @client
   end
 
-  def get_dockerfile(service, options)
-    parse_content('Dockerfile', service, options)
+  def last_commit
+    `git rev-parse HEAD`.strip
   end
 
-  def parse_content(filename, service, options)
+  def last_release(service)
+    begin
+      client.releases("virtuatable/#{service}")[0][:tag_name]
+    rescue
+      '0.0.0'
+    end
+  end
+
+  def increment(service)
+    return 'patch' if last_merged_pr.nil?
+    tags = last_merged_pr[:labels].map { |l| l[:name] }
+    return 'major' if tags.include? 'major'
+    return 'minor' if tags.include? 'minor'
+    'patch'
+  end
+
+  def last_merged_pr
+    requests = client.pull_requests('virtuatable/accounts', {state: 'all'})
+    requests.each do |request|
+      if request[:merge_commit_sha] == last_commit
+        return request
+      end
+    end
+    return nil
+  end
+
+  def latest_docker_image(service)
+    begin
+      url = "https://registry.hub.docker.com/v2/repositories/virtuatable/#{service}/tags"
+      body = JSON.parse(Faraday.get(url).body)
+      body['results'][0]['name']
+    rescue
+      '0.0.0'
+    end
+  end
+
+  def parse_content(filename, service, version, options)
     filepath = File.join(__dir__, 'utils', filename)
     content = File.read(filepath)
     content.apply!(service, 'service')
+    content.apply!(version, 'version')
     content.apply_all!(options)
     content
   end
@@ -85,7 +152,7 @@ class Command < Thor
 
   def get_config(service, options)
     parsed = %w(deployment ingress service).map do |filename|
-      parse_content("#{filename}.yml", service, options)
+      parse_content("#{filename}.yml", service, latest_docker_image(service), options)
     end
     parsed.join("\n---\n")
   end
