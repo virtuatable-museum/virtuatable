@@ -4,6 +4,7 @@ require 'date'
 require 'faraday'
 require 'json'
 require 'octokit'
+require 'yaml'
 
 require File.join(__dir__, 'lib', 'files', 'dockerfile.rb')
 require File.join(__dir__, 'lib', 'version.rb')
@@ -24,14 +25,26 @@ class Command < Thor
   desc 'kube', 'Gets, applies or deletes the Kubernetes configuration for a service'
   method_option :port, default: '8080'
   method_option :replicas, default: '3'
+  method_option :retry, default: '0'
   def kube(action, service)
     case action
     when 'display'
       puts get_config(service, options)
     when 'create'
+      retries = options['retry'].to_i
+      if retries > 0
+        retries.times do
+          if current_version(service) == latest_docker_image(service)
+            puts 'Similar images, waiting five more seconds...'
+            sleep(5)
+          end
+        end
+      end
       execute_kubectl_command('apply', service, options)
     when 'delete'
       execute_kubectl_command('delete', service, options)
+    when 'current'
+      puts current_version(service)
     end
   end
 
@@ -78,6 +91,12 @@ class Command < Thor
   end
 
   private
+
+  def current_version(service)
+    deployment = YAML.load(`kubectl get deployments/#{service}-deployment -o yaml`)
+    image = deployment['spec']['template']['spec']['containers'][0]['image']
+    image.split(':').last
+  end
 
   def increase_version(service)
     r = latest_docker_image(service)
