@@ -13,7 +13,7 @@ module Virtuatable
         splitted = request.env['sinatra.route'].split(' ')
         verb = splitted.first.downcase
         self.class.api_routes.find do |route|
-          route.verb == verb && route.complete_path == splitted.last
+          route.verb == verb && route.path == splitted.last
         end
       end
     end

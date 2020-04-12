@@ -23,7 +23,7 @@ module Virtuatable
         # TODO : do everything in the #send itself to avoid
         # route reload issues when premium is changed. It will
         # add some treatments but avoid many problems if route.premium
-        send(route.verb, route.complete_path) do
+        send(route.verb, route.path) do
           application(premium: current_route.premium)
           session if current_route.authenticated
           instance_eval(&block)

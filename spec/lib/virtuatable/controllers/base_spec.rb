@@ -301,6 +301,6 @@ RSpec.describe Virtuatable::Controllers::Base do
   end
 
   describe 'API routes' do
-    it_should_behave_like 'a controller', 'controllers', 'get'
+    it_should_behave_like 'a controller', 'get'
   end
 end

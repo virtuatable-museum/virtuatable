@@ -1,4 +1,4 @@
-RSpec.shared_examples 'a controller' do |prefix, verb|
+RSpec.shared_examples 'a controller' do |verb|
   let!(:klass) {
     Class.new(Virtuatable::Controllers::Base) do
       api_route verb, '/authenticated', options: {
@@ -23,7 +23,7 @@ RSpec.shared_examples 'a controller' do |prefix, verb|
 
   describe 'When the application key is not given' do
     before do
-      send(verb, "/#{prefix}/premium", {
+      send(verb, "/premium", {
         session_id: session.token
       })
     end
@@ -40,7 +40,7 @@ RSpec.shared_examples 'a controller' do |prefix, verb|
   end
   describe 'When a non-premium app tries to access a premium route' do
     before do
-      send(verb, "/#{prefix}/premium", {
+      send(verb, "/premium", {
         app_key: application.key,
         session_id: session.token
       })
@@ -58,7 +58,7 @@ RSpec.shared_examples 'a controller' do |prefix, verb|
   end
   describe 'When a non-authenticated request is made on an authenticated route' do
     before do
-      send(verb, "/#{prefix}/authenticated", {
+      send(verb, "/authenticated", {
         app_key: application.key
       })
     end
@@ -75,7 +75,7 @@ RSpec.shared_examples 'a controller' do |prefix, verb|
   end
   describe 'When a request is done with a wrong session_id on an authenticated route' do
     before do
-      send(verb, "/#{prefix}/authenticated", {
+      send(verb, "/authenticated", {
         session_id: 'unknown session token',
         app_key: application.key
       })
