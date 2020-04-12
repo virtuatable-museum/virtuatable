@@ -31,7 +31,7 @@ module Virtuatable
       def read_content
         content = File.read @path
         options.each do |key, value|
-          content.gsub!("{{#{key}}}", value)
+          content.gsub!("{{#{key}}}", (value.to_s rescue ''))
         end
         content
       end
