@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'require_all'
 
 # Main module of the application, containing each other one.
 # @author Vincent Courtois <courtois.vincent@outlook.com>
