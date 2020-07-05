@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.description = 'This gem holds controllers, errors, service delcarations, etc. for the Virtuatable services.'
   spec.authors     = ['Vincent Courtois']
   spec.email       = 'courtois.vincent@outlook.com'
-  spec.files       = Dir['lib/**/*.rb', 'bin/utils/Dockerfile', 'bin/utils/*.yml', 'bin/lib/**/*.rb']
+  spec.files       = Dir['lib/**/*.rb', 'bin/utils/Dockerfile', 'bin/utils/*.yml', 'bin/**/*.rb']
   spec.homepage    = 'https://rubygems.org/gems/virtuatable'
   spec.license     = 'MIT'
 
@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop'                , '0.76.0'
 
   spec.add_runtime_dependency 'mongoid'        , '7.0.1'
-  spec.add_runtime_dependency 'arkaan'         , '>=2.6.0'
+  spec.add_runtime_dependency 'arkaan'         , '~>2.6', '>=2.6.0'
   spec.add_runtime_dependency 'activesupport'  , '5.2.3'
   spec.add_runtime_dependency 'sinatra'        , '2.0.5'
   spec.add_runtime_dependency 'sinatra-contrib', '2.0.5'
