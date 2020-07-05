@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'                  , '3.6.0'
   spec.add_development_dependency 'rspec-json_expectations', '2.1.0'
   spec.add_development_dependency 'rack-test'              , '0.7.0'
-  spec.add_development_dependency 'factory_bot'            , '5.1.1'
+  spec.add_development_dependency 'factory_bot'            , '6.0.2'
   spec.add_development_dependency 'database_cleaner'       , '1.7.0'
   spec.add_development_dependency 'simplecov'              , '0.15.1'
   spec.add_development_dependency 'yard'                   , '0.9.20'
@@ -37,4 +37,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'thor'           , '1.0.1'
   spec.add_runtime_dependency 'faraday'        , '1.0.1'
   spec.add_runtime_dependency 'octokit'        , '4.18.0'
+  spec.add_runtime_dependency 'semantic'       , '1.6.1'
 end
