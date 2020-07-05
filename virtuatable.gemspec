@@ -38,4 +38,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'faraday'        , '1.0.1'
   spec.add_runtime_dependency 'octokit'        , '4.18.0'
   spec.add_runtime_dependency 'semantic'       , '1.6.1'
+  spec.add_runtime_dependency 'git'            , '1.7.0'
 end
