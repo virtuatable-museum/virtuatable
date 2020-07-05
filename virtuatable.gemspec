@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop'                , '0.76.0'
 
   spec.add_runtime_dependency 'mongoid'        , '7.0.1'
-  spec.add_runtime_dependency 'arkaan'         , '2.6.0'
+  spec.add_runtime_dependency 'arkaan'         , '>=2.6.0'
   spec.add_runtime_dependency 'activesupport'  , '5.2.3'
   spec.add_runtime_dependency 'sinatra'        , '2.0.5'
   spec.add_runtime_dependency 'sinatra-contrib', '2.0.5'
