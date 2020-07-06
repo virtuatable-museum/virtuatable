@@ -15,7 +15,14 @@ module Commands
     end
 
     desc 'next <service>', 'Displays the next version of the service'
+    method_option :verbose, type: :boolean, default: false
     def next(service)
+      if options[:verbose]
+        last_pr = Factories::Git.instance.last_pr(service)
+        last_pr_labels = Factories::Git.instance.last_pr_labels(service)
+        puts "Last pull request was #{last_pr[:title]}"
+        puts "its tags were #{last_pr_labels}"
+      end
       puts Factories::Versions.instance.next(service)
     end
 
@@ -25,7 +32,7 @@ module Commands
     method_option :ruby, default: '2.6.5'
     method_option :local, default: false, type: :boolean
     def create(service)
-      v = Factories::Versions.instance.latest(service)
+      v = Factories::Versions.instance.next(service)
       if options[:local] == true
         system "docker build -t virtuatable/#{service}:#{v} ."
       else

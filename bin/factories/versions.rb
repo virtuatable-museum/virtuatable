@@ -17,10 +17,9 @@ module Factories
     end
 
     def increment(service)
-      return 'patch' if git.last_pr.nil?
-      tags = git.last_pr[:labels].map { |l| l[:name] }
-      return 'major' if tags.include? 'major'
-      return 'minor' if tags.include? 'minor'
+      ['major', 'minor'].each do |label|
+        return label if git.last_pr_labels(service).include? label
+      end
       'patch'
     end
 
