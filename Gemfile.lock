@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    virtuatable (2.6.5)
+    virtuatable (2.6.6)
       activesupport (= 6.0.3.2)
       arkaan (>= 2.7.2)
       dotenv (= 2.7.6)
