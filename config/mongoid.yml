@@ -1,6 +1,10 @@
 test:
   clients:
     default:
-      database: arkaan_test
+      database: arkaan-rspec
       hosts:
-        - localhost:27017
+        - ds215759.mlab.com:15759
+      options:
+        user: virtuatable
+        password: Patate123!
+        retry_writes: false
