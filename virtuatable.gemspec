@@ -9,11 +9,9 @@ Gem::Specification.new do |spec|
   spec.description = 'This gem holds controllers, errors, service delcarations, etc. for the Virtuatable services.'
   spec.authors     = ['Vincent Courtois']
   spec.email       = 'courtois.vincent@outlook.com'
-  spec.files       = Dir['lib/**/*.rb', 'bin/utils/Dockerfile', 'bin/utils/*.yml', 'bin/**/*.rb']
+  spec.files       = Dir['lib/**/*.rb']
   spec.homepage    = 'https://rubygems.org/gems/virtuatable'
   spec.license     = 'MIT'
-
-  spec.executables << 'virtuatable'
 
   spec.add_development_dependency 'database_cleaner', '1.6.1'
   spec.add_development_dependency 'factory_bot', '6.1.0'
@@ -31,12 +29,8 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'arkaan', '>=2.7.2'
   spec.add_runtime_dependency 'dotenv', '2.7.6'
   spec.add_runtime_dependency 'faraday', '1.0.1'
-  spec.add_runtime_dependency 'git', '1.7.0'
   spec.add_runtime_dependency 'mongoid', '7.1.0'
-  spec.add_runtime_dependency 'octokit', '4.18.0'
   spec.add_runtime_dependency 'require_all', '3.0.0'
-  spec.add_runtime_dependency 'semantic', '1.6.1'
   spec.add_runtime_dependency 'sinatra', '>=2.1.0'
   spec.add_runtime_dependency 'sinatra-contrib', '2.1.0'
-  spec.add_runtime_dependency 'thor', '1.0.1'
 end
